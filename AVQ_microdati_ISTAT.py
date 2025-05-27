@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 from functools import reduce
 import operator
 
-class AVQMicrodatiISTAT:
+class ISTATMicrodataExtractor:
     def __init__(self):        
         self._OPS = {
             "==":  lambda c, v: c == v,
@@ -374,7 +374,7 @@ class AVQMicrodatiISTAT:
 
         Example
         -------
-            avq = AVQMicrodatiISTAT("AVQ_2022_IT")
+            avq = ISTATMicrodataExtractor("AVQ_2022_IT")
             joint, meta = avq.joint_distribution(
                 attrs=["SESSO", "STCIVMi"],
                 conditions=[
@@ -549,7 +549,7 @@ class AVQMicrodatiISTAT:
 
 if __name__ == "__main__":
 
-    avq = AVQMicrodatiISTAT()
+    avq = ISTATMicrodataExtractor()
     avq.load_data("Replica/AVQ_2022_IT")
 
     joint, meta = avq.joint_distribution(
@@ -630,7 +630,7 @@ if __name__ == "__main__":
         ]   
     
     attrs_pair = ["ETAMi","SESSO"]
-    partners_df = avq.pair_family_members(mother_child_rules, attrs=attrs_pair)#, filter_df_rules=filter_df_rules)
+    partners_df = avq.pair_family_members(mother_child_rules, attrs=attrs_pair, filter_df_rules=filter_df_rules)
 
     attrs_joint = ["ETAMi_ind1","ETAMi_ind2"]#, "SESSO_ind1", "SESSO_ind2"]
     joint_partners, meta = avq.joint_distribution(attrs=attrs_joint,df=partners_df)

@@ -1,10 +1,10 @@
 # ISTAT Microdata Extractor – Aspetti della Vita Quotidiana (AVQ)
 
-This project provides tools for navigating and processing the [ISTAT microdata](https://www.istat.it/microdati/aspetti-della-vita-quotidiana/) from the survey **"Aspetti della Vita Quotidiana" (AVQ)**. It includes a Python class `AVQMicrodatiISTAT` with structured methods to explore, query, and analyze the AVQ dataset efficiently.
+This project provides tools for navigating and processing the [ISTAT microdata](https://www.istat.it/microdati/aspetti-della-vita-quotidiana/) from the survey **"Aspetti della Vita Quotidiana" (AVQ)**. It includes a Python class `ISTATMicrodataExtractor` with structured methods to explore, query, and analyze the AVQ dataset efficiently.
 
 ## 📦 Project Structure
 
-The central component is the `AVQMicrodatiISTAT` class, which offers:
+The central component is the `ISTATMicrodataExtractor` class, which offers:
 
 - 🚀 Simplified access to the dataset structure
 - 🧠 Attribute encoding utilities
@@ -24,7 +24,7 @@ The central component is the `AVQMicrodatiISTAT` class, which offers:
 - Family dynamics and caregiving
 - Purchase habits
 
-## 🧩 Key Features of `AVQMicrodatiISTAT`
+## 🧩 Key Features of `ISTATMicrodataExtractor`
 
 | Method/Attribute                | Description                                                                |
 |---------------------------------|----------------------------------------------------------------------------|

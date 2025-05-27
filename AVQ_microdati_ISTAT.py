@@ -1,0 +1,575 @@
+from typing import List, Dict, Tuple, Any, Literal, Optional, Callable, Union
+import copy
+
+import os
+import warnings
+
+import polars as pl
+import polars.selectors as cs
+import pandas as pd
+
+from bs4 import BeautifulSoup
+from functools import reduce
+import operator
+
+class AVQMicrodatiISTAT:
+    def __init__(
+            self, 
+            path_to_main_folder: str="AVQ_2022_IT",
+            update_categories: bool=False,
+        ):
+        self.path_to_main_folder = path_to_main_folder
+        path_to_df = os.path.join(path_to_main_folder, "MICRODATI/AVQ_Microdati_2022.txt")
+        if not os.path.exists(path_to_df):
+            raise FileNotFoundError(f"File not found: {path_to_df}")
+        
+        self._OPS = {
+            "==":  lambda c, v: c == v,
+            "!=":  lambda c, v: c != v,
+            ">":   lambda c, v: c >  v,
+            ">=":  lambda c, v: c >= v,
+            "<":   lambda c, v: c <  v,
+            "<=":  lambda c, v: c <= v,
+            "in":       lambda c, v: c.is_in(list(v)),
+            "not in":   lambda c, v: ~c.is_in(list(v)),
+        }
+            
+        self.df = pl.read_csv(
+            path_to_df,
+            separator="\t",
+            encoding="utf8",
+            infer_schema_length=500, 
+            quote_char=None,
+            truncate_ragged_lines=True
+        )
+        self.df = self.df.with_columns(cs.string().replace([" " * n for n in range(1, 13)], None))
+
+        self.path_to_tracciato = os.path.join(path_to_main_folder, "METADATI/AVQ_Tracciato_2022.html")
+        self.path_to_categories = os.path.join(self.path_to_main_folder, "METADATI/AVQ_attributes_categories.csv")
+        self.path_to_tracciato_categories = os.path.join(path_to_main_folder, "METADATI/AVQ_Tracciato_2022_with_categories.csv")
+
+        if update_categories and os.path.exists(self.path_to_categories):
+            self._categorize_attributes()
+        else:
+            if os.path.exists(self.path_to_tracciato_categories):
+                self.tracciato_df = pl.read_csv(self.path_to_tracciato_categories)
+                self.attribute_categories = pl.concat(
+                        [pl.concat([self.tracciato_df["category_1"],self.tracciato_df["category_2"]]),
+                        self.tracciato_df["category_3"]]
+                     ).unique().to_list()
+            else:
+                warnings.warn(f"File not found: {self.path_to_tracciato_categories}")
+
+    def _categorize_attributes(self):
+        # Load categories data and append it to Tracciato
+        if not os.path.exists(self.path_to_categories):
+            warnings.warn(f"File not found: {self.path_to_categories}")
+            return
+        
+        categories_df = pl.read_csv(self.path_to_categories)
+
+        cat_1 = categories_df["category_1"].unique().to_list()
+        cat_2 = categories_df["category_2"].unique().to_list()
+        cat_3 = categories_df["category_3"].unique().to_list()
+
+        self.attribute_categories = list(set(cat_1) | set(cat_2) | set(cat_3))
+
+        # Read html file
+        if not os.path.exists(self.path_to_tracciato):
+            raise FileNotFoundError(f"File not found: {self.path_to_tracciato}")
+            
+        rows = self._read_html(self.path_to_tracciato)
+
+        headers = rows[2] # Headers are in the third row
+        data = rows[3:] # Data starts from the fourth row
+        dtypes = [pl.UInt16, pl.UInt16, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String]
+        schema = dict(zip(headers, dtypes))
+
+        # Drop empty or irrelevant columns
+        drop_cols = ["Valori speciali", "Aggregazione", "TipoRecord", "Num. decimali", "Separatore decimali", "Segno aritmetico", "Unità Misura"]
+
+        # Create DataFrame
+        tracciato_df = pl.DataFrame(data, schema=schema).drop(drop_cols)
+
+        # Add the categories to tracciato_df
+        self.tracciato_df = tracciato_df.with_columns(categories_df["category_1"], categories_df["category_2"], categories_df["category_3"])
+
+        # Save tracciato_df with the updated categories to CSV
+        # tracciato_df.write_csv(self.path_to_tracciato_categories)
+
+    def _read_html(self, path_to_html: str) -> List:
+        """Read an HTML file and extract the table data."""
+        with open(path_to_html, "r", encoding="utf-8") as f:
+            soup = BeautifulSoup(f, "lxml")
+
+        rows = []
+        for row in soup.find_all("tr"):
+            cells = row.find_all(["td", "th"])
+            row_data = [cell.get_text(strip=True) for cell in cells]
+            if row_data:
+                rows.append(row_data)
+        return rows
+    
+    def get_attributes_by_categories(
+            self,
+            cat_1: str,
+            cat_2: str | None = None,
+            cat_3: str | None = None,
+            condition: str = "and",
+            print_output: bool = True
+        ) -> pl.DataFrame:
+        """
+        Filter rows of `tracciato_df` according to the presence of up-to-three category
+        labels in the columns 'category_1', 'category_2', 'category_3'.
+
+        Parameters
+        ----------
+        cat_1, cat_2, cat_3 : str | None
+            Category values to search for (cat_2 / cat_3 may be omitted).
+        condition : {'and', 'or'}
+            * 'and' → every non-None category must appear at least once
+            across the three category columns (order doesn’t matter).
+            * 'or'  → at least one of the given categories must appear.
+
+        Returns
+        -------
+        pl.DataFrame
+            The filtered frame (also printed to stdout).
+        """
+        cats = [c for c in (cat_1, cat_2, cat_3) if c is not None]
+
+        cols = ["category_1", "category_2", "category_3"]
+
+        condition = condition.lower()
+        if condition == "or":
+            # any column contains any of the cats
+            filt = pl.any_horizontal([pl.col(col).is_in(cats) for col in cols])
+
+        elif condition == "and":
+            # for each cat: it must appear in some of the three columns
+            cat_exprs = [
+                pl.any_horizontal([pl.col(col) == cat for col in cols])
+                for cat in cats
+            ]
+            filt = reduce(operator.and_, cat_exprs)
+        else:
+            raise ValueError('condition must be either "and" or "or"')
+
+        result = self.tracciato_df.filter(filt)
+
+        # print and return
+        if print_output:
+            print(f"{len(result)} attributes matching the search criteria")
+            print(f"Results for categories {cat_1}{' ' + condition if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + condition if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}:\n")
+
+            print("n°   Attribute\tDescription")
+            print("-----------------------------------------------------")
+            for row in result.iter_rows(named=True):
+                print(f'{row["num. ordine"]}{"    " if len(str(row["num. ordine"])) == 1 else "   " if len(str(row["num. ordine"])) == 2 else "  "}{row["Acronimovariabile"]}:\t{row["Denominazione Variabile"]}')
+
+        return result
+
+    def get_attribute_encoding(
+            self,
+            attribute: int | str, 
+            print_output: bool = False
+        ) -> Dict | None:
+        """
+        Get the encoding of a attribute in the AVQ 2022 dataset.
+        Parameters
+        ----------
+        attribute : int or str
+            The attribute number or name to get the encoding for.
+        print_output : bool
+            If True, print the encoding table.
+        Returns
+        -------
+        dict
+            A dictionary mapping the encoding to the description.
+        """
+        attribute_name = None
+        if isinstance(attribute, str):
+            # Convert attribute name to number
+            try:
+                attribute_name = attribute
+                attribute = self.tracciato_df.filter(pl.col("Acronimovariabile") == attribute).select("num. ordine").to_numpy()[0][0]
+            except:
+                return None
+    
+        path_to_file = os.path.join(self.path_to_main_folder, f"METADATI/Classificazioni/AVQ_Classificazione_2022_var{attribute}.html")
+        if not attribute_name:
+            attribute_name = self.tracciato_df.filter(pl.col("num. ordine") == 5).select("Acronimovariabile").to_numpy()[0][0]
+        if not os.path.exists(path_to_file):
+            print(f"File {path_to_file} does not exist.\n\nattribute n° {attribute} ({attribute_name}) may be of numerical type.")
+            return None
+        else:
+            rows = self._read_html(path_to_file)
+            
+            dict = {int(row[0]): row[1] for row in rows[1:]}
+
+            if print_output:
+                print(attribute_name)
+                print("Encod.\tDescription")
+                for key, value in dict.items():
+                        print(f"""{key}\t{value}""")
+
+            return dict
+    
+    # def _expr(self, col: str, op: str, val: Any) -> pl.Expr:
+    #     try:
+    #         return self._OPS[op](pl.col(col), val)
+    #     except KeyError:
+    #         raise ValueError(f"Unsupported operator '{op}'. "
+    #                         f"Choose from {list(self._OPS)}")
+
+    def _get_encoded_value(self, col: str, val: Any):
+        if isinstance(val, int):
+            return val
+        elif isinstance(val, str):
+            encoding_dict = self.get_attribute_encoding(col)
+            encoding_list = [key for key, v in encoding_dict.items() if v == val]
+            if len(encoding_list)>1:
+                raise ValueError(f"More than one encoded value associated to {val} in column {col}.")
+            else:
+                return encoding_list[0]
+        else:
+            raise TypeError(f"Invalid type for {val} in column {col}.")
+
+    def _expr(self, triplets: List[Tuple[str, str, Any]]) -> pl.Expr:
+        exprs = []
+        for col, op, val in triplets:
+            if op not in self._OPS:
+                raise ValueError(
+                    f"Unsupported operator '{op}' in condition ({col}, {op}, {val}). "
+                    f"Supported operators: {list(self._OPS)}"
+                )
+            exprs.append(self._OPS[op](pl.col(col), self._get_encoded_value(col, val)))
+        return reduce(lambda a, b: a & b, exprs) if exprs else pl.lit(True)
+
+    def filter(
+            self,
+            conditions: List[Tuple[str, str, Any]],
+            df: pl.DataFrame = None,
+            how: Literal["and", "or"] = "and"
+        ) -> pl.DataFrame:
+        """
+        Filter a Polars DataFrame using a list of (column, operator, value).
+
+        Parameters
+        ----------
+        conditions : list of (col, op, val)
+                    op ∈ {'==','!=','>','>=','<','<=','in','not in'}
+                    val can be scalar or list-like (for 'in' / 'not in').
+        how        : 'and' → combine with &,  'or' → combine with |
+
+        Returns
+        -------
+        pl.DataFrame  (rows that pass the combined filter)
+        """
+        if df is None:
+            df = self.df
+
+        if not conditions:
+            return self.df
+
+        if how == "and":
+            combined_expr = self._expr(conditions)
+        elif how == "or":
+            # Custom OR-handling for multiple triplets
+            exprs = []
+            for col, op, val in conditions:
+                if op not in self._OPS:
+                    raise ValueError(
+                        f"Unsupported operator '{op}' in condition ({col}, {op}, {val}). "
+                        f"Supported operators: {list(self._OPS)}"
+                    )
+                exprs.append(self._OPS[op](pl.col(col), self._get_encoded_value(col, val)))
+            combined_expr = reduce(lambda a, b: a | b, exprs)
+        else:
+            raise ValueError("Argument 'how' must be either 'and' or 'or'.")
+
+        return self.df.filter(combined_expr)
+
+
+    def joint_distribution(
+            self,
+            attrs: List[str],
+            df: pl.DataFrame = None,
+            conditions: Optional[List[Tuple[str, str, Any]]] = None,
+            how: Literal["and", "or"] = "and",
+            *,
+            normalise: bool = True,
+            keep_counts: bool = True,
+        ) -> Tuple[pl.DataFrame, Optional[Dict[str, Dict[str, Any]]]]:
+        """
+        Compute the joint distribution of `attrs` in a Polars DataFrame,
+        honouring the comparison conditions supplied.
+
+        Parameters
+        ----------
+        attrs       : list[str]  – columns whose joint distribution is required.
+        conditions  : list[(col, op, val)], optional
+                    op ∈ {'==','!=','>','>=','<','<=','in','not in'}
+        normalise   : if True, append 'prob' = count / total.
+        keep_counts : if False, drop the raw 'count' column.
+
+        Returns
+        -------
+        joint : pl.DataFrame
+            columns: attrs + ['count'] + ['prob' (if normalise)]
+        meta  : dict | None
+            {attr: embed(attr)} if `embed` provided, else None.
+
+        Example
+        -------
+            avq = AVQMicrodatiISTAT("AVQ_2022_IT")
+            joint, meta = avq.joint_distribution(
+                attrs=["SESSO", "STCIVMi"],
+                conditions=[
+                    ("ANNO", "==", 2022),
+                    ("SESSO", "!=", 1),
+                    ("ETAMi", ">=", 7)
+                ],
+                how="and",
+                normalise=True,
+            )
+        """
+        if df is None:
+            df = self.df
+
+        # Optional filtering
+        if conditions:
+            df = self.filter(conditions, df=df, how=how)
+
+        # Aggregate to joint counts
+        joint = (
+            df.group_by(attrs)
+            .agg(pl.len().alias("count"))
+            .sort("count", descending=True)
+        )
+
+        if normalise and joint.height > 0:
+            total = joint["count"].sum()
+            joint = joint.with_columns((pl.col("count") / total).alias("prob"))
+
+        if not keep_counts:
+            joint = joint.drop("count")
+
+        # Optional metadata
+        embed = self.get_attribute_encoding
+        meta = {v: embed(v) for v in attrs} if embed else None
+        return joint, meta
+
+ 
+    def pair_family_members(
+        self,
+        rules: List[Dict[str, Any]],
+        attrs: Optional[List[str]] = None,
+        *,
+        family_key: str = "PROFAM",
+        id_col: str = "PROIND",
+    ) -> pl.DataFrame:
+        """
+        Pair individuals within the same household according to user rules
+        and optionally return attributes for each person.
+
+        Parameters
+        ----------
+        rules : list of dicts with keys
+            - 'ind1' : triplet list for individual-1 filter
+            - 'ind2' : triplet list for individual-2 filter
+            - optional 'name' and 'extra_pair_cond'
+        family_key : household identifier column.
+        id_col     : individual identifier column.
+        attrs      : extra columns whose values you want for each person.
+                    e.g. ['ETAMi','SESSO'] → ETAMi_ind1, ETAMi_ind2,...
+
+        Returns
+        -------
+        pl.DataFrame with columns
+            rule | family_key | PROIND_1 | PROIND_2 | [attrs *_ind1/_ind2 ...]
+        """        
+        df = self.df
+        all_pairs = []
+        if attrs is None:
+            attrs = []
+        else:
+            attrs = [el for el in attrs if el in df.columns]
+
+        # pre-build attribute tables for later joins
+        if attrs:
+            ind1_attr_tbl = (
+                df.select([family_key, id_col] + attrs)
+                .rename(
+                    {id_col: "PROIND_1", **{c: f"{c}_ind1" for c in attrs}}
+                )
+            )
+            ind2_attr_tbl = (
+                df.select([family_key, id_col] + attrs)
+                .rename(
+                    {id_col: "PROIND_2", **{c: f"{c}_ind2" for c in attrs}}
+                )
+            )
+
+        for r_idx, rule in enumerate(rules, start=1):
+            label = rule.get("name", f"rule_{r_idx}")
+
+            # candidate sets
+            cand1 = (
+                df.filter(self._expr(rule["ind1"]))
+                .select([family_key, id_col])
+                .rename({id_col: "PROIND_1"})
+            )
+            cand2 = (
+                df.filter(self._expr(rule["ind2"]))
+                .select([family_key, id_col])
+                .rename({id_col: "PROIND_2"})
+            )
+
+            # cartesian join within household
+            pairs = cand1.join(cand2, on=family_key, how="inner")
+
+            # optional cross-row predicate
+            xpair = rule.get("extra_pair_cond")
+            if xpair is not None and not pairs.is_empty():
+                # full row copies with suffixes for predicate evaluation
+                cols_all = list(df.columns)
+                left  = (
+                    df.select(cols_all)
+                    .rename({c: f"{c}_left"  for c in cols_all
+                            if c not in (family_key, id_col)})
+                )
+                right = (
+                    df.select(cols_all)
+                    .rename({c: f"{c}_right" for c in cols_all
+                            if c not in (family_key, id_col)})
+                )
+                tmp = (
+                    left.join(right, on=family_key, how="inner")
+                        .rename({id_col: "PROIND_1", f"{id_col}_right": "PROIND_2"})
+                )
+
+                l = lambda col: pl.col(f"{col}_left")
+                r = lambda col: pl.col(f"{col}_right")
+                pairs = (
+                    pairs.join(tmp, on=[family_key, "PROIND_1", "PROIND_2"], how="left")
+                        .filter(xpair(l, r))
+                        .select([family_key, "PROIND_1", "PROIND_2"])
+                )
+
+            # remove self-pairs & order ids
+            pairs = (
+                pairs.filter(pl.col("PROIND_1") != pl.col("PROIND_2"))
+                    .with_columns(
+                        pl.when(pl.col("PROIND_1") < pl.col("PROIND_2"))
+                        .then(pl.struct(["PROIND_1", "PROIND_2"]))
+                        .otherwise(pl.struct(["PROIND_2", "PROIND_1"]))
+                        .alias("ordered")
+                    )
+                    .select([
+                        pl.lit(label).alias("rule"),
+                        family_key,
+                        pl.col("ordered").struct.field("PROIND_1").alias("PROIND_1"),
+                        pl.col("ordered").struct.field("PROIND_2").alias("PROIND_2"),
+                    ])
+                    .unique()
+            )
+
+            # attach attributes if requested
+            if not pairs.is_empty():
+                if attrs:
+                    pairs = (
+                        pairs.join(ind1_attr_tbl, on=[family_key, "PROIND_1"], how="left")
+                             .join(ind2_attr_tbl, on=[family_key, "PROIND_2"], how="left")
+                    )
+
+                all_pairs.append(pairs)
+
+        # stack all rules together
+        return pl.concat(all_pairs) if all_pairs else pl.DataFrame()
+
+if __name__ == "__main__":
+
+    avq = AVQMicrodatiISTAT("Replica/AVQ_2022_IT")
+
+    joint, meta = avq.joint_distribution(
+                attrs=["FREQSPO", "BMI"],
+                conditions=[("ETAMi", ">", 7)], # Maggiorenni
+                normalise=True,
+            )
+    joint_min, meta_min = avq.joint_distribution(
+                attrs=["FREQSPO", "BMIMIN"],
+                conditions=[("ETAMi", "<=", 7)], # Minorenni
+                normalise=True,
+            )
+    
+    mother_child_rules = [
+        {"name": "RELPAR_6",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 6)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 1), ("SESSO", "==", 2)]},
+        {"name": "RELPAR_7_1",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 7)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 1), ("SESSO", "==", 2)]},
+        {"name": "RELPAR_7_2",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 7)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 2), ("SESSO", "==", 2)]},
+        {"name": "RELPAR_4_1",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 1)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 4), ("SESSO", "==", 2)]},
+        {"name": "RELPAR_5_2",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 2)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 5), ("SESSO", "==", 2)]},
+        {"name": "RELPAR_5_2",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 3)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 5), ("SESSO", "==", 2)]},
+        {"name": "RELPAR_5_2",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 3)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 5), ("SESSO", "==", 2)]},
+        {"name": "Fallback_RELPAR_6_2",
+        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 6)],
+        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 2), ("SESSO", "==", 2)]},
+    ]
+
+    relpar_col = "RELPAR"
+    partners_rules = [
+        {"name": "REPLAR_1_2",
+         "ind1": [(relpar_col,"==",1)],
+         "ind2": [(relpar_col,"==",2)]},
+         {"name": "REPLAR_1_3",
+         "ind1": [(relpar_col,"==",1)],
+         "ind2": [(relpar_col,"==",3)]},
+         {"name": "RELPAR_4_5",
+          "ind1": [(relpar_col,"==",4)],
+          "ind2": [(relpar_col,"==",5)]},
+         {"name": "RELPAR_6_8",
+          "ind1": [(relpar_col,"==",6)],
+          "ind2": [(relpar_col,"==",8)]},
+          {"name": "RELPAR_7_8",
+          "ind1": [(relpar_col,"==",7)],
+          "ind2": [(relpar_col,"==",8)]},
+          {"name": "RELPAR_6_9",
+          "ind1": [(relpar_col,"==",6)],
+          "ind2": [(relpar_col,"==",9)]},
+          {"name": "RELPAR_7_9",
+          "ind1": [(relpar_col,"==",7)],
+          "ind2": [(relpar_col,"==",9)]},
+          {"name": "RELPAR_12_14",
+          "ind1": [(relpar_col,"==",12)],
+          "ind2": [(relpar_col,"==",14)]},
+          {"name": "RELPAR_12_15",
+          "ind1": [(relpar_col,"==",12)],
+          "ind2": [(relpar_col,"==",15)]},
+          {"name": "RELPAR_13_14",
+          "ind1": [(relpar_col,"==",13)],
+          "ind2": [(relpar_col,"==",14)]},
+          {"name": "RELPAR_13_15",
+          "ind1": [(relpar_col,"==",13)],
+          "ind2": [(relpar_col,"==",15)]},          
+        ]   
+    
+    attrs_pair = ["ETAMi","SESSO"]
+    partners_df = avq.pair_family_members(mother_child_rules, attrs=attrs_pair)
+
+    attrs_joint = ["ETAMi_ind1","ETAMi_ind2"]#, "SESSO_ind1", "SESSO_ind2"]
+    joint_partners, meta = avq.joint_distribution(attrs=attrs_joint,df=partners_df)
+    print(partners_df.head())

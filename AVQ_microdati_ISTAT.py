@@ -1,5 +1,6 @@
 from typing import List, Dict, Tuple, Any, Literal, Optional, Callable, Union
 import copy
+import glob 
 
 import os
 import warnings
@@ -13,16 +14,7 @@ from functools import reduce
 import operator
 
 class AVQMicrodatiISTAT:
-    def __init__(
-            self, 
-            path_to_main_folder: str="AVQ_2022_IT",
-            update_categories: bool=False,
-        ):
-        self.path_to_main_folder = path_to_main_folder
-        path_to_df = os.path.join(path_to_main_folder, "MICRODATI/AVQ_Microdati_2022.txt")
-        if not os.path.exists(path_to_df):
-            raise FileNotFoundError(f"File not found: {path_to_df}")
-        
+    def __init__(self):        
         self._OPS = {
             "==":  lambda c, v: c == v,
             "!=":  lambda c, v: c != v,
@@ -33,7 +25,37 @@ class AVQMicrodatiISTAT:
             "in":       lambda c, v: c.is_in(list(v)),
             "not in":   lambda c, v: ~c.is_in(list(v)),
         }
-            
+
+    def load_data(
+            self,
+            path_to_main_folder: str="AVQ_2022_IT",
+            update_categories: bool=False,
+        ) -> None:
+        """
+        Load the AVQ 2022 microdata from the specified folder.
+        Parameters
+        ----------
+        path_to_main_folder : str
+            Path to the main folder containing the microdata files.
+        update_categories : bool
+            If True, update the categories from the metadata files.
+        Raises
+        ------
+        FileNotFoundError
+            If the specified path does not exist or if the required files are not found.
+        """
+        # Check if paths exist
+        self.path_to_main_folder = path_to_main_folder
+        if not os.path.exists(os.path.join(path_to_main_folder,"MICRODATI/")):
+            raise FileNotFoundError(f"Directory not found: {path_to_main_folder}/MICRODATI/")
+        list_of_files = glob.glob(os.path.join(path_to_main_folder,"MICRODATI/*.txt"))
+        if not list_of_files or len(list_of_files) > 1:
+            raise FileNotFoundError(f"{path_to_main_folder}/MICRODATI should contian exactly one file, but {len(list_of_files)} files were found.")
+        path_to_df = list_of_files[0]
+        if not os.path.exists(path_to_df):
+            raise FileNotFoundError(f"File not found: {path_to_df}")
+        
+        # Load the Microdata DataFrame
         self.df = pl.read_csv(
             path_to_df,
             separator="\t",
@@ -51,6 +73,7 @@ class AVQMicrodatiISTAT:
         if update_categories and os.path.exists(self.path_to_categories):
             self._categorize_attributes()
         else:
+            # Check if the tracciato exists
             if os.path.exists(self.path_to_tracciato_categories):
                 self.tracciato_df = pl.read_csv(self.path_to_tracciato_categories)
                 self.attribute_categories = pl.concat(
@@ -215,13 +238,6 @@ class AVQMicrodatiISTAT:
 
             return dict
     
-    # def _expr(self, col: str, op: str, val: Any) -> pl.Expr:
-    #     try:
-    #         return self._OPS[op](pl.col(col), val)
-    #     except KeyError:
-    #         raise ValueError(f"Unsupported operator '{op}'. "
-    #                         f"Choose from {list(self._OPS)}")
-
     def _get_encoded_value(self, col: str, val: Any):
         if isinstance(val, int):
             return val
@@ -232,20 +248,56 @@ class AVQMicrodatiISTAT:
                 raise ValueError(f"More than one encoded value associated to {val} in column {col}.")
             else:
                 return encoding_list[0]
+        elif isinstance(val, list):
+            if all(isinstance(n, int) for n in val):
+                 return val
+            elif all(isinstance(n, str) for n in val):
+                encoding_dict = self.get_attribute_encoding(col)
+                encoding_list = []
+                for el in val:    
+                    encoding_list = [key for el in val for key, v in encoding_dict.items() if v == el]
+                return encoding_list
+            else:
+                raise TypeError(f"Invalid or mixed types in {val} in column {col}.")
         else:
             raise TypeError(f"Invalid type for {val} in column {col}.")
 
     def _expr(self, triplets: List[Tuple[str, str, Any]]) -> pl.Expr:
+        """
+        Build a single Polars expression that AND-combines a list of
+        (column, operator, value) conditions.
+
+        Special case:
+            - If operator is "==", the expression becomes
+            `pl.col(col).is_in(value_list)` so that a scalar or list‐like
+            value can match any of the provided values.
+        """
         exprs = []
+        
+        # Check if triplets is a list of tuples with 3 elements
+        if not isinstance(triplets, list) or not all(isinstance(t, tuple) and len(t) == 3 for t in triplets):
+            raise TypeError("Expected a list of (col, op, val) triplets.")
+
         for col, op, val in triplets:
             if op not in self._OPS:
                 raise ValueError(
                     f"Unsupported operator '{op}' in condition ({col}, {op}, {val}). "
                     f"Supported operators: {list(self._OPS)}"
                 )
-            exprs.append(self._OPS[op](pl.col(col), self._get_encoded_value(col, val)))
-        return reduce(lambda a, b: a & b, exprs) if exprs else pl.lit(True)
 
+            # Encode value(s) first
+            enc_val = self._get_encoded_value(col, val)
+
+            if op == "==":
+                # Ensure enc_val is iterable for `is_in`
+                if not isinstance(enc_val, (list, tuple, set)):
+                    enc_val = [enc_val]
+                exprs.append(pl.col(col).is_in(enc_val))
+            else:
+                exprs.append(self._OPS[op](pl.col(col), enc_val))
+
+        return reduce(lambda a, b: a & b, exprs) if exprs else pl.lit(True)
+    
     def filter(
             self,
             conditions: List[Tuple[str, str, Any]],
@@ -366,6 +418,7 @@ class AVQMicrodatiISTAT:
         rules: List[Dict[str, Any]],
         attrs: Optional[List[str]] = None,
         *,
+        filter_df_rules: List[Dict[str, Any]] = None,
         family_key: str = "PROFAM",
         id_col: str = "PROIND",
     ) -> pl.DataFrame:
@@ -375,21 +428,27 @@ class AVQMicrodatiISTAT:
 
         Parameters
         ----------
-        rules : list of dicts with keys
+        rules      : list of dicts with keys
             - 'ind1' : triplet list for individual-1 filter
             - 'ind2' : triplet list for individual-2 filter
             - optional 'name' and 'extra_pair_cond'
-        family_key : household identifier column.
-        id_col     : individual identifier column.
-        attrs      : extra columns whose values you want for each person.
-                    e.g. ['ETAMi','SESSO'] → ETAMi_ind1, ETAMi_ind2,...
+        attrs      : list of str, optional
+            Extra columns to return for each person.
+            e.g. ['ETAMi','SESSO'] → ETAMi_ind1, ETAMi_ind2,...
+        filter_df_rules  : list of dicts, optional
+            If provided, filter the DataFrame before pairing.
+        family_key : str
+            household identifier column.
+        id_col     : str
+            individual identifier column.
+                    
 
         Returns
         -------
         pl.DataFrame with columns
             rule | family_key | PROIND_1 | PROIND_2 | [attrs *_ind1/_ind2 ...]
         """        
-        df = self.df
+        df = self.filter(filter_df_rules)
         all_pairs = []
         if attrs is None:
             attrs = []
@@ -490,7 +549,8 @@ class AVQMicrodatiISTAT:
 
 if __name__ == "__main__":
 
-    avq = AVQMicrodatiISTAT("Replica/AVQ_2022_IT")
+    avq = AVQMicrodatiISTAT()
+    avq.load_data("Replica/AVQ_2022_IT")
 
     joint, meta = avq.joint_distribution(
                 attrs=["FREQSPO", "BMI"],
@@ -503,31 +563,33 @@ if __name__ == "__main__":
                 normalise=True,
             )
     
+    regioni = ["Valle d\'Aosta","Piemonte","Lombardia"]
+    filter_df_rules = [("REGMf", "==", regioni)]
     mother_child_rules = [
         {"name": "RELPAR_6",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 6)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 1), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 6)],
+        "ind2": [("RELPAR", "==", 1), ("SESSO", "==", 2)]},
         {"name": "RELPAR_7_1",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 7)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 1), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 7)],
+        "ind2": [("RELPAR", "==", 1), ("SESSO", "==", 2)]},
         {"name": "RELPAR_7_2",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 7)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 2), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 7)],
+        "ind2": [("RELPAR", "==", 2), ("SESSO", "==", 2)]},
         {"name": "RELPAR_4_1",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 1)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 4), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 1)],
+        "ind2": [("RELPAR", "==", 4), ("SESSO", "==", 2)]},
         {"name": "RELPAR_5_2",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 2)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 5), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 2)],
+        "ind2": [("RELPAR", "==", 5), ("SESSO", "==", 2)]},
         {"name": "RELPAR_5_2",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 3)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 5), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 3)],
+        "ind2": [("RELPAR", "==", 5), ("SESSO", "==", 2)]},
         {"name": "RELPAR_5_2",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 3)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 5), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 3)],
+        "ind2": [("RELPAR", "==", 5), ("SESSO", "==", 2)]},
         {"name": "Fallback_RELPAR_6_2",
-        "ind1": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 6)],
-        "ind2": [("REGMf", "==", "Piemonte"), ("RELPAR", "==", 2), ("SESSO", "==", 2)]},
+        "ind1": [("RELPAR", "==", 6)],
+        "ind2": [("RELPAR", "==", 2), ("SESSO", "==", 2)]},
     ]
 
     relpar_col = "RELPAR"
@@ -568,7 +630,7 @@ if __name__ == "__main__":
         ]   
     
     attrs_pair = ["ETAMi","SESSO"]
-    partners_df = avq.pair_family_members(mother_child_rules, attrs=attrs_pair)
+    partners_df = avq.pair_family_members(mother_child_rules, attrs=attrs_pair)#, filter_df_rules=filter_df_rules)
 
     attrs_joint = ["ETAMi_ind1","ETAMi_ind2"]#, "SESSO_ind1", "SESSO_ind2"]
     joint_partners, meta = avq.joint_distribution(attrs=attrs_joint,df=partners_df)

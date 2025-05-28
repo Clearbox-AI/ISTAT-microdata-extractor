@@ -37,11 +37,42 @@ The central component is the `ISTATMicrodataExtractor` class, which offers:
 | `joint_distribution()`          | Computes joint/marginal distributions for selected variables               |
 
 
-### Install dependencies via:
+### Installing
 
 ```bash
-pip install -r requirements.txt
+git clone git@github.com:Clearbox-AI/ISTAT-microdata-extractor.git
+
+pip install -e ISTAT-microdata-extractor
 ```
+
+### 📊 Examples
+```python
+from microdata_extractor import ISTATMicrodataExtractor
+
+# Supposing your AVQ Microdata ISTAT is stored in "AVQ_2022_IT"
+avq = AVQMicrodatiISTAT()
+avq.load_data("AVQ_2022_IT")
+
+# Consult the available attribute categories 
+avq.attribute_categories
+
+# Filter attributes by relevant categories
+_ = avq.get_attributes_by_categories("demographics","sport", "health_conditions", condition="or")
+
+# Check encodings for categorical variables
+encoding = avq.get_attribute_encoding("FREQSPO", print_output=True)
+
+# Filter main dataset based on user-defined rules
+rules = [
+    ("FREQSPO","<=",3), # Practice sport more than two times a week
+    ("SESSO","==",2), # Females
+    ("REGMf","==",["Piemonte","Lombardia"]) # Region of residence
+    ]
+
+df_filtered = avq.filter(rules, how="and")
+```
+
+Check out the [Examples folder](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/Examples) for more!
 
 ### Contacts
 

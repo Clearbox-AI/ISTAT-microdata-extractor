@@ -138,7 +138,7 @@ class ISTATMicrodataExtractor:
             cat_1: str,
             cat_2: str | None = None,
             cat_3: str | None = None,
-            condition: str = "and",
+            how: Literal["and", "or"] = "and",
             print_output: bool = True
         ) -> pl.DataFrame:
         """
@@ -163,12 +163,12 @@ class ISTATMicrodataExtractor:
 
         cols = ["category_1", "category_2", "category_3"]
 
-        condition = condition.lower()
-        if condition == "or":
+        how = how.lower()
+        if how == "or":
             # any column contains any of the cats
             filt = pl.any_horizontal([pl.col(col).is_in(cats) for col in cols])
 
-        elif condition == "and":
+        elif how == "and":
             # for each cat: it must appear in some of the three columns
             cat_exprs = [
                 pl.any_horizontal([pl.col(col) == cat for col in cols])
@@ -183,7 +183,7 @@ class ISTATMicrodataExtractor:
         # print and return
         if print_output:
             print(f"{len(result)} attributes matching the search criteria")
-            print(f"Results for categories {cat_1}{' ' + condition if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + condition if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}:\n")
+            print(f"Results for categories {cat_1}{' ' + how if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + how if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}:\n")
 
             print("n°   Attribute\tDescription")
             print("-----------------------------------------------------")

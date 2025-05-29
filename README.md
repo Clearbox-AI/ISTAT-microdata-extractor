@@ -42,7 +42,7 @@ The central component is the `ISTATMicrodataExtractor` class, which offers:
 ```bash
 git clone git@github.com:Clearbox-AI/ISTAT-microdata-extractor.git
 
-pip install -e ISTAT-microdata-extractor
+pip install -e path/to/ISTAT-microdata-extractor
 ```
 
 ### 📊 Examples

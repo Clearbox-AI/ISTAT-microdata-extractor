@@ -37,13 +37,15 @@ The central component is the `ISTATMicrodataExtractor` class, which offers:
 | `joint_distribution()`          | Computes joint/marginal distributions for selected variables               |
 
 
-### Installing
+### Installing & Setup
 
 ```bash
 git clone git@github.com:Clearbox-AI/ISTAT-microdata-extractor.git
 
 pip install -e path/to/ISTAT-microdata-extractor
 ```
+
+To setup your AVQ ISTAT Microdata, unzip the data folder you find [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
 
 ### 📊 Examples
 ```python

@@ -45,7 +45,7 @@ git clone git@github.com:Clearbox-AI/ISTAT-microdata-extractor.git
 pip install -e path/to/ISTAT-microdata-extractor
 ```
 
-To setup your AVQ ISTAT Microdata, unzip the data folder you find [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
+To setup your **AVQ ISTAT Microdata**, unzip the data folder you find [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
 
 ### 📊 Examples
 ```python
@@ -69,7 +69,7 @@ rules = [
     ("FREQSPO","<=",3), # Practice sport more than two times a week
     ("SESSO","==",2), # Females
     ("REGMf","==",["Piemonte","Lombardia"]) # Region of residence
-    ]
+]
 
 df_filtered = avq.filter(rules, how="and")
 ```
@@ -79,3 +79,4 @@ Check out the [Examples folder](https://github.com/Clearbox-AI/ISTAT-microdata-e
 ### Contacts
 
 📧 info@clearbox.ai
+🌐 [www.clearbox.ai](https://www.clearbox.ai/)

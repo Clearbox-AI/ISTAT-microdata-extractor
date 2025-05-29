@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "microdata-extractor"
+version = "0.0.1"
+description = "A tool for navigating and processing the Abitudini della Vita Quotiiana ISTAT microdata"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Clearbox AI", email = "info@clearbox.ai" }
+]
+dependencies = [
+  "polars==1.17.1",
+  "pandas<3.0",
+  "beautifulsoup4"
+]
+
+[project.urls]
+Homepage = "https://github.com/Clearbox-AI/ISTAT-microdata-extractor"
+
+[tool.setuptools]
+packages = ["microdata_extractor"]
+include-package-data = true

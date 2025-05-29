@@ -192,13 +192,13 @@ class ISTATMicrodataExtractor:
 
         return result
 
-    def get_attribute_encoding(
+    def get_attribute_metadata(
             self,
             attribute: int | str, 
             print_output: bool = False
         ) -> Dict | None:
         """
-        Get the encoding of a attribute in the AVQ 2022 dataset.
+        Get the encoding and description of a attribute in the AVQ dataset.
         Parameters
         ----------
         attribute : int or str
@@ -231,8 +231,9 @@ class ISTATMicrodataExtractor:
             dict = {int(row[0]): row[1] for row in rows[1:]}
 
             if print_output:
-                print(attribute_name)
-                print("Encod.\tDescription")
+                print("Attribute:\n  ",attribute_name)
+                print("Description:\n  ",self.tracciato_df.filter(pl.col("Acronimovariabile")==attribute_name)["Denominazione Variabile"].item())
+                print("Encod.\tLabel")
                 for key, value in dict.items():
                         print(f"""{key}\t{value}""")
 
@@ -242,7 +243,7 @@ class ISTATMicrodataExtractor:
         if isinstance(val, int):
             return val
         elif isinstance(val, str):
-            encoding_dict = self.get_attribute_encoding(col)
+            encoding_dict = self.get_attribute_metadata(col)
             encoding_list = [key for key, v in encoding_dict.items() if v == val]
             if len(encoding_list)>1:
                 raise ValueError(f"More than one encoded value associated to {val} in column {col}.")
@@ -252,7 +253,7 @@ class ISTATMicrodataExtractor:
             if all(isinstance(n, int) for n in val):
                  return val
             elif all(isinstance(n, str) for n in val):
-                encoding_dict = self.get_attribute_encoding(col)
+                encoding_dict = self.get_attribute_metadata(col)
                 encoding_list = []
                 for el in val:    
                     encoding_list = [key for el in val for key, v in encoding_dict.items() if v == el]
@@ -408,7 +409,7 @@ class ISTATMicrodataExtractor:
             joint = joint.drop("count")
 
         # Optional metadata
-        embed = self.get_attribute_encoding
+        embed = self.get_attribute_metadata
         meta = {v: embed(v) for v in attrs} if embed else None
         return joint, meta
 

@@ -30,7 +30,7 @@ The central component is the `ISTATMicrodataExtractor` class, which offers:
 |---------------------------------|----------------------------------------------------------------------------|
 | `load_data()`                   | Loads and prepares the AVQ microdata from raw files                        |
 | `attribute_categories`          | Attribute that contains all the categories for the attributes              |
-| `get_attribute_encoding()`      | Retrieves metadata/encodings for categorical variables                     |
+| `get_attribute_metadata()`      | Retrieves metadata/encodings for categorical variables                     |
 | `get_attributes_by_categories()`| Filters attributes by categories                                           |
 | `filter()`                      | Applies logical filters on individual-level records                        |
 | `pair_family_members()`         | Pairs individuals within the same household according to flexible rules    |
@@ -62,7 +62,7 @@ avq.attribute_categories
 _ = avq.get_attributes_by_categories("demographics","sport", "health_conditions", condition="or")
 
 # Check encodings for categorical variables
-encoding = avq.get_attribute_encoding("FREQSPO", print_output=True)
+encoding = avq.get_attribute_metadata("FREQSPO", print_output=True)
 
 # Filter main dataset based on user-defined rules
 rules = [

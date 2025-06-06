@@ -321,10 +321,11 @@ class ISTATMicrodataExtractor:
             • A sequence *of sequences* → inner lists are AND-ed, outer level OR-ed  
             Example:
                 [
-                [("age", ">", 30),  ("country", "==", "US")],   # group 1
-                [("age", "<=", 30), ("country", "==", "CA")],   # group 2
+                  [("ETAMi",">=",7),("BMI","<=",3)],  # Adults (age>=18) AND BMI==[1,2,3]
+                                                      # OR
+                  [("ETAMi","<",7),("BMIMIN","==",1)] # minors (age<18) AND BMIMIN==1
                 ]
-            expresses:  (age>30 AND country==US)  OR  (age<=30 AND country==CA)
+            expresses:  (age>=18 AND BMI<=3)  OR  (age<18 AND BMIMIN==1)
 
         Returns
         -------
@@ -566,7 +567,7 @@ if __name__ == "__main__":
     avq.load_data("Replica/AVQ_2022_IT")
 
     # Filter returns adults (age>=18) with BMI==[1,2,3] and minors (age<18) with BMIMIN==1
-    df_filt=avq.filter([[("ETAMi",">=",7),("BMI","in",[1,2,3])],[("ETAMi","<",7),("BMIMIN","==",1)]])
+    df_filt=avq.filter([[("ETAMi",">=",7),("BMI","<=",3)],[("ETAMi","<",7),("BMIMIN","==",1)]])
 
     joint, meta = avq.joint_distribution(
                 attrs=["FREQSPO", "BMI"],

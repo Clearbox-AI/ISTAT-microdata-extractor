@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple, Any, Literal, Optional, Callable, Union
+from typing import List, Dict, Tuple, Any, Literal, Optional, Sequence, Union
 import copy
 import glob 
 
@@ -59,8 +59,9 @@ class ISTATMicrodataExtractor:
         self.df = pl.read_csv(
             path_to_df,
             separator="\t",
+            null_values=[" " * n for n in range(1, 13)],
             encoding="utf8",
-            infer_schema_length=500, 
+            infer_schema_length=None, 
             quote_char=None,
             truncate_ragged_lines=True
         )
@@ -183,7 +184,7 @@ class ISTATMicrodataExtractor:
         # print and return
         if print_output:
             print(f"{len(result)} attributes matching the search criteria")
-            print(f"Results for categories {cat_1}{' ' + how if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + how if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}:\n")
+            print(f"Results for {cat_1}{' ' + how if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + how if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}:\n")
 
             print("n°   Attribute\tDescription")
             print("-----------------------------------------------------")
@@ -223,7 +224,7 @@ class ISTATMicrodataExtractor:
         if not attribute_name:
             attribute_name = self.tracciato_df.filter(pl.col("num. ordine") == 5).select("Acronimovariabile").to_numpy()[0][0]
         if not os.path.exists(path_to_file):
-            print(f"File {path_to_file} does not exist.\n\nattribute n° {attribute} ({attribute_name}) may be of numerical type.")
+            print(f"File {path_to_file} does not exist.\n\nAttribute n° {attribute} ({attribute_name}) may be of numerical type.")
             return None
         else:
             rows = self._read_html(path_to_file)
@@ -245,8 +246,8 @@ class ISTATMicrodataExtractor:
         elif isinstance(val, str):
             encoding_dict = self.get_attribute_metadata(col)
             encoding_list = [key for key, v in encoding_dict.items() if v == val]
-            if len(encoding_list)>1:
-                raise ValueError(f"More than one encoded value associated to {val} in column {col}.")
+            if len(encoding_list)!=1:
+                raise ValueError(f"None or more than one encoded value associated to {val} in column {col}.")
             else:
                 return encoding_list[0]
         elif isinstance(val, list):
@@ -299,57 +300,68 @@ class ISTATMicrodataExtractor:
 
         return reduce(lambda a, b: a & b, exprs) if exprs else pl.lit(True)
     
+    Triplet       = Tuple[str, str, Any]
+    TripletGroup  = Sequence[Triplet]               # AND-ed together
+    ConditionsT   = Union[TripletGroup,             # flat list  → all AND
+                        Sequence[TripletGroup]]   # list of lists → OR of AND-groups
     def filter(
-            self,
-            conditions: List[Tuple[str, str, Any]],
-            df: pl.DataFrame = None,
-            how: Literal["and", "or"] = "and"
-        ) -> pl.DataFrame:
+        self,
+        conditions: ConditionsT,
+        df: pl.DataFrame | None = None,
+    ) -> pl.DataFrame:
         """
-        Filter a Polars DataFrame using a list of (column, operator, value).
+        Filter a Polars DataFrame with arbitrarily complex boolean logic.
 
         Parameters
         ----------
-        conditions : list of (col, op, val)
-                    op ∈ {'==','!=','>','>=','<','<=','in','not in'}
-                    val can be scalar or list-like (for 'in' / 'not in').
-        how        : 'and' → combine with &,  'or' → combine with |
+        conditions
+            • A *flat* sequence of (col, op, val) → all AND-ed **(back-compat)**  
+            Example:  [("age", ">", 30), ("country", "==", "US")]
+
+            • A sequence *of sequences* → inner lists are AND-ed, outer level OR-ed  
+            Example:
+                [
+                [("age", ">", 30),  ("country", "==", "US")],   # group 1
+                [("age", "<=", 30), ("country", "==", "CA")],   # group 2
+                ]
+            expresses:  (age>30 AND country==US)  OR  (age<=30 AND country==CA)
 
         Returns
         -------
-        pl.DataFrame  (rows that pass the combined filter)
+        pl.DataFrame
+            Rows that satisfy the combined condition(s).
         """
         if df is None:
             df = self.df
-
         if not conditions:
-            return self.df
+            return df
 
-        if how == "and":
-            combined_expr = self._expr(conditions)
-        elif how == "or":
-            # Custom OR-handling for multiple triplets
-            exprs = []
-            for col, op, val in conditions:
-                if op not in self._OPS:
-                    raise ValueError(
-                        f"Unsupported operator '{op}' in condition ({col}, {op}, {val}). "
-                        f"Supported operators: {list(self._OPS)}"
-                    )
-                exprs.append(self._OPS[op](pl.col(col), self._get_encoded_value(col, val)))
-            combined_expr = reduce(lambda a, b: a | b, exprs)
-        else:
-            raise ValueError("Argument 'how' must be either 'and' or 'or'.")
+        # Normalise: make sure it always works with a list of AND-groups
+        if isinstance(conditions[0], tuple):          # user gave a flat list
+            conditions = [conditions]                 # wrap in a single group
 
-        return self.df.filter(combined_expr)
+        # Guard against malformed inputs early
+        if not all(isinstance(g, Sequence) and g and isinstance(g[0], tuple)
+                for g in conditions):
+            raise TypeError(
+                "Expected a list of (col, op, val) triplets *or* "
+                "a list of such lists."
+            )
+
+        # Build Polars expressions
+        #   • self._expr(group)  -> AND of one group
+        #   • reduce(|)          -> OR across groups
+        and_groups = [self._expr(list(group)) for group in conditions]
+        combined_expr = reduce(operator.or_, and_groups)
+
+        return df.filter(combined_expr)
 
 
     def joint_distribution(
             self,
             attrs: List[str],
             df: pl.DataFrame = None,
-            conditions: Optional[List[Tuple[str, str, Any]]] = None,
-            how: Literal["and", "or"] = "and",
+            conditions: ConditionsT = None,
             *,
             normalise: bool = True,
             keep_counts: bool = True,
@@ -392,7 +404,7 @@ class ISTATMicrodataExtractor:
 
         # Optional filtering
         if conditions:
-            df = self.filter(conditions, df=df, how=how)
+            df = self.filter(conditions, df=df)
 
         # Aggregate to joint counts
         joint = (
@@ -552,6 +564,9 @@ if __name__ == "__main__":
 
     avq = ISTATMicrodataExtractor()
     avq.load_data("Replica/AVQ_2022_IT")
+
+    # Filter returns adults (age>=18) with BMI==[1,2,3] and minors (age<18) with BMIMIN==1
+    df_filt=avq.filter([[("ETAMi",">=",7),("BMI","in",[1,2,3])],[("ETAMi","<",7),("BMIMIN","==",1)]])
 
     joint, meta = avq.joint_distribution(
                 attrs=["FREQSPO", "BMI"],

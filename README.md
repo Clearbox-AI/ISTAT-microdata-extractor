@@ -67,13 +67,15 @@ _ = avq.get_attributes_by_categories("demographics","sport", "health_conditions"
 encoding = avq.get_attribute_metadata("FREQSPO", print_output=True)
 
 # Filter main dataset based on user-defined rules
+# Tuples within the same inner list are AND-ed, tuples belonging to different inner lists are OR-ed
+# The following rules express: (age>=18 AND BMI<=3)  OR  (age<18 AND BMIMIN==1)
 rules = [
-    ("FREQSPO","<=",3), # Practice sport more than two times a week
-    ("SESSO","==",2), # Females
-    ("REGMf","==",["Piemonte","Lombardia"]) # Region of residence
+    [("ETAMi",">=",7),("BMI","<=",3)],  # Adults (age>=18) AND BMI==[1,2,3]
+                                        # OR
+    [("ETAMi","<",7),("BMIMIN","==",1)] # minors (age<18) AND BMIMIN==1
 ]
 
-df_filtered = avq.filter(rules, how="and")
+df_filtered = avq.filter(rules)
 ```
 
 Check out the [Examples folder](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/Examples) for more!

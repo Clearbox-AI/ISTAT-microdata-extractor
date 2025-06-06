@@ -65,7 +65,8 @@ class ISTATMicrodataExtractor:
             quote_char=None,
             truncate_ragged_lines=True
         )
-        self.df = self.df.with_columns(cs.string().replace([" " * n for n in range(1, 13)], None))
+        # Drop all null columns 
+        self.df = self.df.select([col for col in self.df.columns if not self.df[col].is_null().all()]) 
 
         self.path_to_tracciato = os.path.join(path_to_main_folder, "METADATI/AVQ_Tracciato_2022.html")
         self.path_to_categories = os.path.join(self.path_to_main_folder, "METADATI/AVQ_attributes_categories.csv")

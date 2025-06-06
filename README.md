@@ -42,6 +42,8 @@ The central component is the `ISTATMicrodataExtractor` class, which offers:
 ```bash
 git clone git@github.com:Clearbox-AI/ISTAT-microdata-extractor.git
 
+pip install -r path/to/ISTAT-microdata-extractor/requirements.txt
+
 pip install -e path/to/ISTAT-microdata-extractor
 ```
 

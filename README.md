@@ -47,6 +47,16 @@ pip install -r path/to/ISTAT-microdata-extractor/requirements.txt
 pip install -e path/to/ISTAT-microdata-extractor
 ```
 
+#### Updating version
+
+To update your local version go to your local folder and run:
+
+```bash
+git pull origin main
+
+pip install -e ISTAT-microdata-extractor
+```
+
 To setup your **AVQ ISTAT Microdata**, unzip the data folder you find [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
 
 ### 📊 Examples
@@ -54,17 +64,17 @@ To setup your **AVQ ISTAT Microdata**, unzip the data folder you find [here](htt
 from microdata_extractor import ISTATMicrodataExtractor
 
 # Supposing your AVQ Microdata ISTAT is stored in "AVQ_2022_IT"
-avq = AVQMicrodatiISTAT()
-avq.load_data("AVQ_2022_IT")
+mde = ISTATMicrodataExtractor()
+mde.load_data("AVQ_2022_IT")
 
 # Consult the available attribute categories 
-avq.attribute_categories
+mde.attribute_categories
 
 # Filter attributes by relevant categories
-_ = avq.get_attributes_by_categories("demographics","sport", "health_conditions", condition="or")
+_ = mde.get_attributes_by_categories("demographics","sport", "health_conditions", condition="or")
 
 # Check encodings for categorical variables
-encoding = avq.get_attribute_metadata("FREQSPO", print_output=True)
+encoding = mde.get_attribute_metadata("FREQSPO", print_output=True)
 
 # Filter main dataset based on user-defined rules
 # Tuples within the same inner list are AND-ed, tuples belonging to different inner lists are OR-ed
@@ -75,7 +85,7 @@ rules = [
     [("ETAMi","<",7),("BMIMIN","==",1)] # minors (age<18) AND BMIMIN==1
 ]
 
-df_filtered = avq.filter(rules)
+df_filtered = mde.filter(rules)
 ```
 
 Check out the [Examples folder](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/Examples) for more!
@@ -83,4 +93,5 @@ Check out the [Examples folder](https://github.com/Clearbox-AI/ISTAT-microdata-e
 ### Contacts
 
 📧 info@clearbox.ai
+
 🌐 [www.clearbox.ai](https://www.clearbox.ai/)

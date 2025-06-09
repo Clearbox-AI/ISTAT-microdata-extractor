@@ -63,9 +63,9 @@ To setup your **AVQ ISTAT Microdata**, unzip the data folder you find [here](htt
 ```python
 from microdata_extractor import ISTATMicrodataExtractor
 
-# Supposing your AVQ Microdata ISTAT is stored in "AVQ_2022_IT"
+# Supposing your AVQ Microdata ISTAT is stored in "AVQ_2023_IT"
 mde = ISTATMicrodataExtractor()
-mde.load_data("AVQ_2022_IT")
+mde.load_data("AVQ_2023_IT")
 
 # Consult the available attribute categories 
 mde.attribute_categories

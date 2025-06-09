@@ -14,7 +14,11 @@ from functools import reduce
 import operator
 
 class ISTATMicrodataExtractor:
-    def __init__(self, get_polars=False):        
+    def __init__(
+            self, 
+            year=2023, 
+            get_polars=False
+        ):        
         self._OPS = {
             "==":  lambda c, v: c == v,
             "!=":  lambda c, v: c != v,
@@ -25,15 +29,16 @@ class ISTATMicrodataExtractor:
             "in":       lambda c, v: c.is_in(list(v)),
             "not in":   lambda c, v: ~c.is_in(list(v)),
         }
+        self.year = year
         self.get_polars = get_polars
 
     def load_data(
             self,
-            path_to_main_folder: str="AVQ_2022_IT",
+            path_to_main_folder: str="AVQ_2023_IT",
             update_categories: bool=False,
         ) -> None:
         """
-        Load the AVQ 2022 microdata from the specified folder.
+        Load the AVQ microdata from the specified folder.
         Parameters
         ----------
         path_to_main_folder : str
@@ -69,9 +74,9 @@ class ISTATMicrodataExtractor:
         # Drop all null columns 
         self.df = self.df.select([col for col in self.df.columns if not self.df[col].is_null().all()]) 
 
-        self.path_to_tracciato = os.path.join(path_to_main_folder, "METADATI/AVQ_Tracciato_2022.html")
+        self.path_to_tracciato = os.path.join(path_to_main_folder, f"METADATI/AVQ_Tracciato_{self.year}.html")
         self.path_to_categories = os.path.join(self.path_to_main_folder, "METADATI/AVQ_attributes_categories.csv")
-        self.path_to_tracciato_categories = os.path.join(path_to_main_folder, "METADATI/AVQ_Tracciato_2022_with_categories.csv")
+        self.path_to_tracciato_categories = os.path.join(path_to_main_folder, f"METADATI/AVQ_Tracciato_{self.year}_with_categories.csv")
 
         if update_categories and os.path.exists(self.path_to_categories):
             self._categorize_attributes()
@@ -225,7 +230,7 @@ class ISTATMicrodataExtractor:
             except:
                 return None
     
-        path_to_file = os.path.join(self.path_to_main_folder, f"METADATI/Classificazioni/AVQ_Classificazione_2022_var{attribute}.html")
+        path_to_file = os.path.join(self.path_to_main_folder, f"METADATI/Classificazioni/AVQ_Classificazione_{self.year}_var{attribute}.html")
         if not attribute_name:
             attribute_name = self.tracciato_df.filter(pl.col("num. ordine") == 5).select("Acronimovariabile").to_numpy()[0][0]
         if not os.path.exists(path_to_file):
@@ -401,11 +406,11 @@ class ISTATMicrodataExtractor:
 
         Example
         -------
-            avq = ISTATMicrodataExtractor("AVQ_2022_IT")
+            avq = ISTATMicrodataExtractor("AVQ_2023_IT")
             joint, meta = avq.joint_distribution(
                 attrs=["SESSO", "STCIVMi"],
                 conditions=[
-                    ("ANNO", "==", 2022),
+                    ("ANNO", "==", 2023),
                     ("SESSO", "!=", 1),
                     ("ETAMi", ">=", 7)
                 ],
@@ -588,7 +593,7 @@ class ISTATMicrodataExtractor:
 if __name__ == "__main__":
 
     avq = ISTATMicrodataExtractor(get_polars=True)
-    avq.load_data("Replica/AVQ_2022_IT")
+    avq.load_data("Replica/AVQ_2023_IT")
 
     # Filter returns adults (age>=18) with BMI==[1,2,3] and minors (age<18) with BMIMIN==1
     df_filt=avq.filter([[("ETAMi",">=",7),("BMI","<=",3)],[("ETAMi","<",7),("BMIMIN","==",1)]])

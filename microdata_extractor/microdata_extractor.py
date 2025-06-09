@@ -14,7 +14,7 @@ from functools import reduce
 import operator
 
 class ISTATMicrodataExtractor:
-    def __init__(self):        
+    def __init__(self, get_polars=False):        
         self._OPS = {
             "==":  lambda c, v: c == v,
             "!=":  lambda c, v: c != v,
@@ -25,6 +25,7 @@ class ISTATMicrodataExtractor:
             "in":       lambda c, v: c.is_in(list(v)),
             "not in":   lambda c, v: ~c.is_in(list(v)),
         }
+        self.get_polars = get_polars
 
     def load_data(
             self,
@@ -120,7 +121,7 @@ class ISTATMicrodataExtractor:
         self.tracciato_df = tracciato_df.with_columns(categories_df["category_1"], categories_df["category_2"], categories_df["category_3"])
 
         # Save tracciato_df with the updated categories to CSV
-        # tracciato_df.write_csv(self.path_to_tracciato_categories)
+        tracciato_df.write_csv(self.path_to_tracciato_categories)
 
     def _read_html(self, path_to_html: str) -> List:
         """Read an HTML file and extract the table data."""
@@ -142,7 +143,7 @@ class ISTATMicrodataExtractor:
             cat_3: str | None = None,
             how: Literal["and", "or"] = "and",
             print_output: bool = True
-        ) -> pl.DataFrame:
+        ) -> pd.DataFrame | pl.DataFrame:
         """
         Filter rows of `tracciato_df` according to the presence of up-to-three category
         labels in the columns 'category_1', 'category_2', 'category_3'.
@@ -192,7 +193,10 @@ class ISTATMicrodataExtractor:
             for row in result.iter_rows(named=True):
                 print(f'{row["num. ordine"]}{"    " if len(str(row["num. ordine"])) == 1 else "   " if len(str(row["num. ordine"])) == 2 else "  "}{row["Acronimovariabile"]}:\t{row["Denominazione Variabile"]}')
 
-        return result
+        if self.get_polars:
+            return result
+        else:
+            return result.to_pandas()
 
     def get_attribute_metadata(
             self,
@@ -308,8 +312,9 @@ class ISTATMicrodataExtractor:
     def filter(
         self,
         conditions: ConditionsT,
-        df: pl.DataFrame | None = None,
-    ) -> pl.DataFrame:
+        df: pd.DataFrame | pl.DataFrame | None = None,
+        get_polars = False
+    ) -> pd.DataFrame | pl.DataFrame:
         """
         Filter a Polars DataFrame with arbitrarily complex boolean logic.
 
@@ -338,6 +343,10 @@ class ISTATMicrodataExtractor:
         if not conditions:
             return df
 
+        # Transform df to polars if needed
+        if isinstance(df, pd.DataFrame):
+            df = pl.from_pandas(df)
+
         # Normalise: make sure it always works with a list of AND-groups
         if isinstance(conditions[0], tuple):          # user gave a flat list
             conditions = [conditions]                 # wrap in a single group
@@ -356,18 +365,21 @@ class ISTATMicrodataExtractor:
         and_groups = [self._expr(list(group)) for group in conditions]
         combined_expr = reduce(operator.or_, and_groups)
 
-        return df.filter(combined_expr)
+        if self.get_polars or get_polars:
+            return df.filter(combined_expr)
+        else:
+            return df.to_pandas()
 
 
     def joint_distribution(
             self,
             attrs: List[str],
-            df: pl.DataFrame = None,
+            df: pd.DataFrame | pl.DataFrame | None = None,
             conditions: ConditionsT = None,
             *,
             normalise: bool = True,
             keep_counts: bool = True,
-        ) -> Tuple[pl.DataFrame, Optional[Dict[str, Dict[str, Any]]]]:
+        ) -> Tuple[pd.DataFrame | pl.DataFrame, Optional[Dict[str, Dict[str, Any]]]]:
         """
         Compute the joint distribution of `attrs` in a Polars DataFrame,
         honouring the comparison conditions supplied.
@@ -404,9 +416,13 @@ class ISTATMicrodataExtractor:
         if df is None:
             df = self.df
 
+        # Transform df to polars if needed
+        if isinstance(df, pd.DataFrame):
+            df = pl.from_pandas(df)
+
         # Optional filtering
         if conditions:
-            df = self.filter(conditions, df=df)
+            df = self.filter(conditions, df=df, get_polars=True)
 
         # Aggregate to joint counts
         joint = (
@@ -425,7 +441,11 @@ class ISTATMicrodataExtractor:
         # Optional metadata
         embed = self.get_attribute_metadata
         meta = {v: embed(v) for v in attrs} if embed else None
-        return joint, meta
+        
+        if self.get_polars:
+            return joint, meta
+        else:
+            return joint.to_pandas(), meta
 
  
     def pair_family_members(
@@ -463,7 +483,7 @@ class ISTATMicrodataExtractor:
         pl.DataFrame with columns
             rule | family_key | PROIND_1 | PROIND_2 | [attrs *_ind1/_ind2 ...]
         """        
-        df = self.filter(filter_df_rules)
+        df = self.filter(filter_df_rules, get_polars=True)
         all_pairs = []
         if attrs is None:
             attrs = []
@@ -560,11 +580,14 @@ class ISTATMicrodataExtractor:
                 all_pairs.append(pairs)
 
         # stack all rules together
-        return pl.concat(all_pairs) if all_pairs else pl.DataFrame()
+        if self.get_polars:
+            return pl.concat(all_pairs) if all_pairs else pl.DataFrame()
+        else:
+            return pl.concat(all_pairs).to_pandas() if all_pairs else pd.DataFrame()
 
 if __name__ == "__main__":
 
-    avq = ISTATMicrodataExtractor()
+    avq = ISTATMicrodataExtractor(get_polars=True)
     avq.load_data("Replica/AVQ_2022_IT")
 
     # Filter returns adults (age>=18) with BMI==[1,2,3] and minors (age<18) with BMIMIN==1

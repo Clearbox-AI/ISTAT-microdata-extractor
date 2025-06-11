@@ -188,6 +188,7 @@ class ISTATMicrodataExtractor:
 
         result = self.tracciato_df.filter(filt)
 
+        num_ord = "num. ordine"
         # print and return
         if print_output:
             print(f"{len(result)} attributes matching the search criteria")
@@ -196,7 +197,7 @@ class ISTATMicrodataExtractor:
             print("n°   Attribute\tDescription")
             print("-----------------------------------------------------")
             for row in result.iter_rows(named=True):
-                print(f'{row["num. ordine"]}{"    " if len(str(row["num. ordine"])) == 1 else "   " if len(str(row["num. ordine"])) == 2 else "  "}{row["Acronimovariabile"]}:\t{row["Denominazione Variabile"]}')
+                print(f'{row[num_ord]}{"    " if len(str(row[num_ord])) == 1 else "   " if len(str(row[num_ord])) == 2 else "  "}{row["Acronimovariabile"]}:\t{row["Denominazione Variabile"]}')
 
         if self.get_polars:
             return result

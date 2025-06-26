@@ -1,6 +1,10 @@
 # ISTAT Microdata Extractor – Aspetti della Vita Quotidiana (AVQ)
 
-This project provides tools for navigating and processing the [ISTAT microdata](https://www.istat.it/microdati/aspetti-della-vita-quotidiana/) from the survey **"Aspetti della Vita Quotidiana" (AVQ)**. It includes a Python class `ISTATMicrodataExtractor` with structured methods to explore, query, and analyze the AVQ dataset efficiently.
+This project provides tools for navigating and processing the **ISTAT microdata**. It includes the Python class `ISTATMicrodataExtractor` with structured methods to explore, query, and analyze the microdata efficiently.
+
+Available microdata:
+- [AVQ](https://www.istat.it/microdati/aspetti-della-vita-quotidiana/): Indagine sugli Aspetti della Vita Quotidiana (AVQ) delle famiglie italiane
+- [HBS](https://www.istat.it/microdati/indagine-sulle-spese-delle-famiglie-uso-pubblico/): Indagine sulle spese delle famiglie italiane
 
 ## 📦 Project Structure
 
@@ -57,14 +61,14 @@ git pull origin main
 pip install -e ISTAT-microdata-extractor
 ```
 
-To setup your **AVQ ISTAT Microdata**, unzip the data folder you find [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
+To setup your **AVQ ISTAT Microdata**, unzip the data folder you need [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
 
 ### 📊 Examples
 ```python
 from microdata_extractor import ISTATMicrodataExtractor
 
 # Supposing your AVQ Microdata ISTAT is stored in "AVQ_2023_IT"
-mde = ISTATMicrodataExtractor()
+mde = ISTATMicrodataExtractor(df_name="AVQ",year=2023)
 mde.load_data("AVQ_2023_IT")
 
 # Consult the available attribute categories 

@@ -16,9 +16,17 @@ import operator
 class ISTATMicrodataExtractor:
     def __init__(
             self, 
+            df_name: Literal["AVQ","HBS"],
             year=2023, 
             get_polars=False
         ):        
+        """
+        Initialize ISTAT Microdata Extractor.
+        Available datasets:
+        - AVQ: "Indagine sugli Aspetti della Vita Quotidiana (AVQ) delle famiglie italiane"
+        - HBS: "Indagine sulle spese delle famiglie italiane"
+        .
+        """
         self._OPS = {
             "==":  lambda c, v: c == v,
             "!=":  lambda c, v: c != v,
@@ -29,22 +37,20 @@ class ISTATMicrodataExtractor:
             "in":       lambda c, v: c.is_in(list(v)),
             "not in":   lambda c, v: ~c.is_in(list(v)),
         }
+        self.df_name = df_name
         self.year = year
         self.get_polars = get_polars
 
     def load_data(
             self,
-            path_to_main_folder: str="AVQ_2023_IT",
-            update_categories: bool=False,
+            path_to_main_folder,
         ) -> None:
         """
-        Load the AVQ microdata from the specified folder.
+        Load the ISTAT microdata from the specified folder.
         Parameters
         ----------
         path_to_main_folder : str
-            Path to the main folder containing the microdata files.
-        update_categories : bool
-            If True, update the categories from the metadata files.
+            Path to the main folder containing the METADATA and MICRODATA folders.
         Raises
         ------
         FileNotFoundError
@@ -54,79 +60,51 @@ class ISTATMicrodataExtractor:
         self.path_to_main_folder = path_to_main_folder
         if not os.path.exists(os.path.join(path_to_main_folder,"MICRODATI/")):
             raise FileNotFoundError(f"Directory not found: {path_to_main_folder}/MICRODATI/")
-        list_of_files = glob.glob(os.path.join(path_to_main_folder,"MICRODATI/*.txt"))
-        if not list_of_files or len(list_of_files) > 1:
-            raise FileNotFoundError(f"{path_to_main_folder}/MICRODATI should contian exactly one file, but {len(list_of_files)} files were found.")
-        path_to_df = list_of_files[0]
-        if not os.path.exists(path_to_df):
-            raise FileNotFoundError(f"File not found: {path_to_df}")
-        
-        # Load the Microdata DataFrame
-        self.df = pl.read_csv(
-            path_to_df,
-            separator="\t",
-            null_values=[" " * n for n in range(1, 13)],
-            encoding="utf8",
-            infer_schema_length=None, 
-            quote_char=None,
-            truncate_ragged_lines=True
-        )
+        list_of_csv_files = glob.glob(os.path.join(path_to_main_folder,"MICRODATI/*.csv"))
+        if not list_of_csv_files or len(list_of_csv_files) > 1:
+            list_of_txt_files = glob.glob(os.path.join(path_to_main_folder,"MICRODATI/*.txt"))
+            if not list_of_txt_files or len(list_of_txt_files) > 1:
+                raise FileNotFoundError(f"{path_to_main_folder}/MICRODATI should contian exactly one .txt file and/or one .csv file, but {len(list_of_txt_files)} .txt files and {len(list_of_csv_files)} were found.")
+            path_to_df = list_of_txt_files[0]
+            if not os.path.exists(path_to_df):
+                raise FileNotFoundError(f"File not found: {path_to_df}")
+            # Load the Microdata DataFrame from txt
+            self.df = pl.read_csv(
+                path_to_df,
+                separator="\t",
+                null_values=[" " * n for n in range(1, 13)],
+                encoding="utf8",
+                infer_schema_length=None, 
+                quote_char=None,
+                truncate_ragged_lines=True
+            )        
+        else:
+            # Load the Microdata DataFrame from csv
+            path_to_df = list_of_csv_files[0]
+            self.df = pl.read_csv(
+                path_to_df,
+                null_values=[" " * n for n in range(1, 13)],
+                infer_schema_length=None, 
+                quote_char=None,
+                truncate_ragged_lines=True)
+
         # Drop all null columns 
         self.df = self.df.select([col for col in self.df.columns if not self.df[col].is_null().all()]) 
 
-        self.path_to_tracciato = os.path.join(path_to_main_folder, f"METADATI/AVQ_Tracciato_{self.year}.html")
-        self.path_to_categories = os.path.join(self.path_to_main_folder, "METADATI/AVQ_attributes_categories.csv")
-        self.path_to_tracciato_categories = os.path.join(path_to_main_folder, f"METADATI/AVQ_Tracciato_{self.year}_with_categories.csv")
-
-        if update_categories and os.path.exists(self.path_to_categories):
-            self._categorize_attributes()
-        else:
-            # Check if the tracciato exists
-            if os.path.exists(self.path_to_tracciato_categories):
-                self.tracciato_df = pl.read_csv(self.path_to_tracciato_categories)
-                self.attribute_categories = pl.concat(
-                        [pl.concat([self.tracciato_df["category_1"],self.tracciato_df["category_2"]]),
-                        self.tracciato_df["category_3"]]
-                     ).unique().to_list()
-            else:
-                warnings.warn(f"File not found: {self.path_to_tracciato_categories}")
-
-    def _categorize_attributes(self):
-        # Load categories data and append it to Tracciato
-        if not os.path.exists(self.path_to_categories):
-            warnings.warn(f"File not found: {self.path_to_categories}")
-            return
+        self.path_to_tracciato = os.path.join(path_to_main_folder, f"METADATI/{self.df_name}_Tracciato_{self.year}.csv")
         
-        categories_df = pl.read_csv(self.path_to_categories)
-
-        cat_1 = categories_df["category_1"].unique().to_list()
-        cat_2 = categories_df["category_2"].unique().to_list()
-        cat_3 = categories_df["category_3"].unique().to_list()
-
-        self.attribute_categories = list(set(cat_1) | set(cat_2) | set(cat_3))
-
-        # Read html file
-        if not os.path.exists(self.path_to_tracciato):
-            raise FileNotFoundError(f"File not found: {self.path_to_tracciato}")
-            
-        rows = self._read_html(self.path_to_tracciato)
-
-        headers = rows[2] # Headers are in the third row
-        data = rows[3:] # Data starts from the fourth row
-        dtypes = [pl.UInt16, pl.UInt16, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String, pl.String]
-        schema = dict(zip(headers, dtypes))
-
-        # Drop empty or irrelevant columns
-        drop_cols = ["Valori speciali", "Aggregazione", "TipoRecord", "Num. decimali", "Separatore decimali", "Segno aritmetico", "Unità Misura"]
-
-        # Create DataFrame
-        tracciato_df = pl.DataFrame(data, schema=schema).drop(drop_cols)
-
-        # Add the categories to tracciato_df
-        self.tracciato_df = tracciato_df.with_columns(categories_df["category_1"], categories_df["category_2"], categories_df["category_3"])
-
-        # Save tracciato_df with the updated categories to CSV
-        tracciato_df.write_csv(self.path_to_tracciato_categories)
+        # Check if the tracciato exists
+        if os.path.exists(self.path_to_tracciato):
+            self.tracciato_df = pl.read_csv(self.path_to_tracciato)
+            categ_cols = ["category_1", "category_2", "category_3", "category_4"]
+            missing_columns = [col for col in categ_cols if col not in self.tracciato_df.columns]
+            if missing_columns:
+                raise ValueError(f"The following required columns are missing from the DataFrame: {missing_columns}")
+            self.attribute_categories = pl.concat(
+                [self.tracciato_df[col] for col in categ_cols]
+            ).unique().to_list()
+        else:
+            warnings.warn(f"File not found: {self.path_to_tracciato}")
 
     def _read_html(self, path_to_html: str) -> List:
         """Read an HTML file and extract the table data."""
@@ -146,17 +124,18 @@ class ISTATMicrodataExtractor:
             cat_1: str,
             cat_2: str | None = None,
             cat_3: str | None = None,
+            cat_4: str | None = None,
             how: Literal["and", "or"] = "and",
             print_output: bool = True
         ) -> pd.DataFrame | pl.DataFrame:
         """
         Filter rows of `tracciato_df` according to the presence of up-to-three category
-        labels in the columns 'category_1', 'category_2', 'category_3'.
+        labels in the columns 'category_1', 'category_2', 'category_3', 'category_4'.
 
         Parameters
         ----------
-        cat_1, cat_2, cat_3 : str | None
-            Category values to search for (cat_2 / cat_3 may be omitted).
+        cat_1, cat_2, cat_3, cat_4 : str | None
+            Category values to search for (cat_2 / cat_3 /cat_4 may be omitted).
         condition : {'and', 'or'}
             * 'and' → every non-None category must appear at least once
             across the three category columns (order doesn’t matter).
@@ -167,9 +146,9 @@ class ISTATMicrodataExtractor:
         pl.DataFrame
             The filtered frame (also printed to stdout).
         """
-        cats = [c for c in (cat_1, cat_2, cat_3) if c is not None]
+        cats = [c for c in (cat_1, cat_2, cat_3, cat_4) if c is not None]
 
-        cols = ["category_1", "category_2", "category_3"]
+        cols = ["category_1", "category_2", "category_3", "category_4"]
 
         how = how.lower()
         if how == "or":
@@ -192,7 +171,7 @@ class ISTATMicrodataExtractor:
         # print and return
         if print_output:
             print(f"{len(result)} attributes matching the search criteria")
-            print(f"Results for {cat_1}{' ' + how if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + how if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}:\n")
+            print(f"Results for {cat_1}{' ' + how if cat_2 is not None else ''}{' ' + cat_2 if cat_2 is not None else ''}{' ' + how if cat_3 is not None else ''}{' ' + cat_3 if cat_3 is not None else ''}{' ' + how if cat_4 is not None else ''}{' ' + cat_4 if cat_4 is not None else ''}:\n")
 
             print("n°   Attribute\tDescription")
             print("-----------------------------------------------------")
@@ -210,7 +189,7 @@ class ISTATMicrodataExtractor:
             print_output: bool = False
         ) -> Dict | None:
         """
-        Get the encoding and description of a attribute in the AVQ dataset.
+        Get the encoding and description of a attribute in the ISTAT dataset.
         Parameters
         ----------
         attribute : int or str
@@ -225,15 +204,16 @@ class ISTATMicrodataExtractor:
         attribute_name = None
         if isinstance(attribute, str):
             # Convert attribute name to number
-            try:
-                attribute_name = attribute
-                attribute = self.tracciato_df.filter(pl.col("Acronimovariabile") == attribute).select("num. ordine").to_numpy()[0][0]
-            except:
-                return None
-    
-        path_to_file = os.path.join(self.path_to_main_folder, f"METADATI/Classificazioni/AVQ_Classificazione_{self.year}_var{attribute}.html")
-        if not attribute_name:
-            attribute_name = self.tracciato_df.filter(pl.col("num. ordine") == 5).select("Acronimovariabile").to_numpy()[0][0]
+            # try:
+            attribute_name = attribute
+            attribute = self.tracciato_df.filter(pl.col("Acronimovariabile") == attribute).select("num. ordine").to_numpy()[0][0]
+            # except:
+                # return None
+        elif isinstance(attribute, int):
+            attribute_name = self.tracciato_df.filter(pl.col("num. ordine") == attribute).select("Acronimovariabile").to_numpy()[0][0]
+            
+        path_to_file = os.path.join(self.path_to_main_folder, f"METADATI/Classificazioni/{self.df_name}_Classificazione_{self.year}_var{attribute}.html")
+
         if not os.path.exists(path_to_file):
             print(f"File {path_to_file} does not exist.\n\nAttribute n° {attribute} ({attribute_name}) may be of numerical type.")
             return None
@@ -385,6 +365,7 @@ class ISTATMicrodataExtractor:
             *,
             normalise: bool = True,
             keep_counts: bool = True,
+            get_attr_metadata: bool = False
         ) -> Tuple[pd.DataFrame | pl.DataFrame, Optional[Dict[str, Dict[str, Any]]]]:
         """
         Compute the joint distribution of `attrs` in a Polars DataFrame,
@@ -407,8 +388,8 @@ class ISTATMicrodataExtractor:
 
         Example
         -------
-            avq = ISTATMicrodataExtractor("AVQ_2023_IT")
-            joint, meta = avq.joint_distribution(
+            mde = ISTATMicrodataExtractor("AVQ_2023_IT")
+            joint, meta = mde.joint_distribution(
                 attrs=["SESSO", "STCIVMi"],
                 conditions=[
                     ("ANNO", "==", 2023),
@@ -444,14 +425,20 @@ class ISTATMicrodataExtractor:
         if not keep_counts:
             joint = joint.drop("count")
 
-        # Optional metadata
-        embed = self.get_attribute_metadata
-        meta = {v: embed(v) for v in attrs} if embed else None
         
-        if self.get_polars:
-            return joint, meta
+        if get_attr_metadata:
+            # Optional metadata
+            embed = self.get_attribute_metadata
+            meta = {v: embed(v) for v in attrs} if embed else None
+            if self.get_polars:
+                return joint, meta
+            else:
+                return joint.to_pandas(), meta
         else:
-            return joint.to_pandas(), meta
+            if self.get_polars:
+                return joint
+            else:
+                return joint.to_pandas()
 
  
     def pair_family_members(
@@ -489,6 +476,10 @@ class ISTATMicrodataExtractor:
         pl.DataFrame with columns
             rule | family_key | PROIND_1 | PROIND_2 | [attrs *_ind1/_ind2 ...]
         """        
+        if self.df_name == "HBS":
+            print("The method pair_family_members is not available for the HBS dataset, as each row represents a family and the demographic attributes are explicitly available for all family members (e.g. sesso_1, pnasc_1, staciv_1, sesso_2, pnasc_2, staciv_2, etc...).")
+            return
+        
         df = self.filter(filter_df_rules, get_polars=True)
         all_pairs = []
         if attrs is None:
@@ -593,18 +584,21 @@ class ISTATMicrodataExtractor:
 
 if __name__ == "__main__":
 
-    avq = ISTATMicrodataExtractor(get_polars=True)
-    avq.load_data("Replica/AVQ_2023_IT")
+    # mde = ISTATMicrodataExtractor(df_name="AVQ", year="2023", get_polars=True)
+    # mde.load_data("Replica/AVQ_2023_IT")
+    mde = ISTATMicrodataExtractor(df_name="HBS", year="2023", get_polars=True)
+    mde.load_data("Replica/HBS_2023_IT")
 
+    mde.get_attribute_metadata("c_ateco_1")
     # Filter returns adults (age>=18) with BMI==[1,2,3] and minors (age<18) with BMIMIN==1
-    df_filt=avq.filter([[("ETAMi",">=",7),("BMI","<=",3)],[("ETAMi","<",7),("BMIMIN","==",1)]])
+    df_filt=mde.filter([[("ETAMi",">=",7),("BMI","<=",3)],[("ETAMi","<",7),("BMIMIN","==",1)]])
 
-    joint, meta = avq.joint_distribution(
+    joint = mde.joint_distribution(
                 attrs=["FREQSPO", "BMI"],
                 conditions=[("ETAMi", ">", 7)], # Maggiorenni
                 normalise=True,
             )
-    joint_min, meta_min = avq.joint_distribution(
+    joint_min = mde.joint_distribution(
                 attrs=["FREQSPO", "BMIMIN"],
                 conditions=[("ETAMi", "<=", 7)], # Minorenni
                 normalise=True,
@@ -677,8 +671,8 @@ if __name__ == "__main__":
         ]   
     
     attrs_pair = ["ETAMi","SESSO"]
-    partners_df = avq.pair_family_members(mother_child_rules, attrs=attrs_pair, filter_df_rules=filter_df_rules)
+    partners_df = mde.pair_family_members(mother_child_rules, attrs=attrs_pair, filter_df_rules=filter_df_rules)
 
     attrs_joint = ["ETAMi_ind1","ETAMi_ind2"]#, "SESSO_ind1", "SESSO_ind2"]
-    joint_partners, meta = avq.joint_distribution(attrs=attrs_joint,df=partners_df)
+    joint_partners = mde.joint_distribution(attrs=attrs_joint,df=partners_df)
     print(partners_df.head())

@@ -1,0 +1,758 @@
+num. ordine,Lunghezza,Acronimovariabile,TipoVariabile,Note,Denominazione Variabile,Formato Campo,category_1,category_2,category_3
+1,6,PROFAM,-,"",progressivo famiglia,alfa.,identifiers,demographics,
+2,2,PROIND,-,"",numero d'ordine del componente,alfa.,identifiers,demographics,
+3,2,NCOMP,-,"",n� dei componenti la famiglia attuale,alfa.,demographics,,
+4,4,ANNO,-,"",anno della rilevazione,alfa.,identifiers,,
+5,2,RELPAR,Categorica,"",relazione di parentela con la persona di riferimento,alfa.,demographics,,
+6,3,ETAMi,Categorica,ricostruita,Et� in anni compiuti,alfa.,demographics,,
+7,1,SESSO,Categorica,"",Sesso - scheda generale,alfa.,demographics,,
+8,1,STCIVMi,Categorica,ricostruita,Stato civile,alfa.,demographics,,
+9,1,STCPM,Categorica,"",Stato civile precedente il matrimonio,alfa.,demographics,,
+10,4,AMATR,-,"",Anno del matrimonio,alfa.,demographics,,
+11,2,ISTRMi,Categorica,ricostruita,Titolo di studio,alfa.,education,employment,
+12,1,CONDMi,Categorica,ricostruita,Condizione professionale,alfa.,employment,,
+13,1,LAVPAS,Categorica,"",Ha lavorato in passato,alfa.,employment,,
+14,2,POSIZMi,Categorica,ricostruita,posizione nella professione,alfa.,employment,,
+15,2,ATECOMi,Categorica,ricostruita,Settore di attivit� economica,alfa.,employment,,
+16,1,TIPNU2,Categorica,"",Tipo nucleo 2,alfa.,demographics,,
+17,2,NUMNU2,-,"",Numero progressivo del nucleo nell'ambito della famiglia 2,alfa.,identifiers,demographics,
+18,1,RPNUC2,Categorica,"",Relazione di parentela nell'ambito del nucleo 2,alfa.,demographics,,
+19,2,TIPFA2Mi,Categorica,ricostruita,Tipologia familiare 2,alfa.,demographics,,
+20,3,REGMf,Categorica,ricostruita,Regione di residenza dell'intervistato,alfa.,demographics,,
+21,1,RIPMf,Categorica,ricostruita,Ripartizione geografica di residenza dell'intervistato,alfa.,demographics,,
+22,12,COEFIN,-,Per ottenere la stima espressa in  unit� dividere per 10.000 (diecimila),Coefficiente di riporto all'universo,num.,identifiers,,
+23,1,REDPRMi,Categorica,ricostruita,Fonte principale di reddito,alfa.,income,employment,
+24,1,CITTMi,Categorica,ricostruita,Cittadinanza,alfa.,demographics,,
+25,1,MOTAS,Categorica,"",Motivo principale per cui frequenta il nido,alfa.,education,,
+26,1,DADLEZOL,Categorica,"",Nel periodo di chiusura delle scuole da marzo a giugno 2020: Ha seguito lezioni online con gli insegnanti,alfa.,education,digital,
+27,1,DADPC,Categorica,"","Dispositivo utilizzato durante la chiusura delle scuole: computer fisso da tavolo, laptop",alfa.,digital,,
+28,1,DADTB,Categorica,"",Dispositivo utilizzato durante la chiusura delle scuole: tablet,alfa.,digital,,
+29,1,DADCELL,Categorica,"","Dispositivo utilizzato durante la chiusura delle scuole: telefono cellulare, smartphone",alfa.,digital,,
+30,1,DADDIFF,Categorica,"",Ha avuto difficolt� a seguire le lezioni online con  gli insegnanti?,alfa.,education,digital,
+31,1,DADDIF1,Categorica,"",Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: le attrezzature informatiche in famiglia non erano adeguate,alfa.,demographics,education,digital
+32,1,DADDIF2,Categorica,"","Difficolt� incontrate nel seguire le lezioni online con gli insegnanti:  problemi di connessione a internet, scarsa qualit� del segnale",alfa.,education,digital,
+33,1,DADDIF3,Categorica,"","Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: difficolt� a utilizzare computer, tablet, smartphone",alfa.,education,digital,
+34,1,DADDIF3_BIS,Categorica,"",Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: difficolt� ad utilizzare software/app a supporto della didattica a distanza,alfa.,education,digital,
+35,1,DADDIF4,Categorica,"",Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: problemi di concentrazione o motivazione,alfa.,education,digital,
+36,1,DADDIF5,Categorica,"",Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: difficolt� a seguire in autonomia le lezioni online,alfa.,education,transportation,digital
+37,1,DADDIF6,Categorica,"","Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: orari scomodi o in sovrapposizione con fratelli, sorelle, genitori lavoratori",alfa.,education,employment,digital
+38,1,DADDIF7,Categorica,"",Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: mancanza di uno spazio tranquillo per seguire le lezioni,alfa.,education,digital,
+39,1,DADDIF8,Categorica,"",Difficolt� incontrate nel seguire le lezioni online con gli insegnanti: altro (codice),alfa.,identifiers,education,digital
+40,2,DOMRIF,Categorica,"",Motivo per cui non frequenta il nido: la domanda non � stata accettata,alfa.,education,,
+41,2,MEMFAM,Categorica,"","Motivo per cui non frequenta il nido: lo segue un membro della famiglia, non ho problemi di organizzazione familiare",alfa.,education,demographics,
+42,2,NIDLON,Categorica,"","Motivo per cui non frequenta il nido: l'asilo � lontano, scomodo",alfa.,education,,
+43,2,NODELE,Categorica,"",Motivo per cui non frequenta il nido: non voglio delegare il compito educativo,alfa.,education,,
+44,2,MALAT,Categorica,"",Motivo per cui non frequenta il nido: il bambino si ammalava troppo spesso,alfa.,education,,
+45,2,ABBAND,Categorica,"",Motivo per cui non frequenta il nido: il bambino pu� sentirsi abbandonato,alfa.,education,,
+46,2,NONVUO,Categorica,"",Motivo per cui non frequenta il nido: il bambino non vuole andare,alfa.,education,,
+47,2,NOMED,Categorica,"",Motivo per cui non frequenta il nido: lo ha sconsigliato un medico,alfa.,education,,
+48,2,TPICC,Categorica,"",Motivo per cui non frequenta il nido: il bambino � troppo piccolo,alfa.,education,,
+49,2,NDTROPPO,Categorica,"",Motivo per cui non frequenta il nido: l'asilo costa troppo,alfa.,education,,
+50,2,ORARIS,Categorica,"",Motivo per cui non frequenta il nido: l'asilo ha orari scomodi,alfa.,education,,
+51,2,ALNIDO,Categorica,"",Motivo per cui non frequenta il nido: altro,alfa.,education,,
+52,1,LEZPR,Categorica,"",Negli ultimi 12 mesi ha frequentato lezioni private o corsi: recupero scolastico,alfa.,education,,
+53,1,INFOR,Categorica,"",Negli ultimi 12 mesi ha frequentato lezioni private o corsi: informatica,alfa.,education,,
+54,1,LING,Categorica,"",Negli ultimi 12 mesi ha frequentato lezioni private o corsi: lingue,alfa.,education,,
+55,1,ARTCUL,Categorica,"",Negli ultimi 12 mesi ha frequentato lezioni private o corsi: attivit� artistiche e\o culturali,alfa.,education,,
+56,2,USORA,-,"77=variabile per turni, 88=variabile per altra ragione, 99=non esco, lavoro in casa",Orario abituale di uscita da casa per andare a lavoro o a scuola (ora),alfa.,transportation,employment,education
+57,2,USMIN,-,"77=variabile per turni, 88=variabile per altra ragione, 99=non esco, lavoro in casa",Orario abituale di uscita da casa per andare a lavoro o a scuola (minuti),alfa.,transportation,employment,education
+58,2,HHSCLA,-,99=variabile,Tempo impiegato per andare al lavoro/scuola (ora),alfa.,transportation,employment,education
+59,2,MMSCLA,-,99=variabile,Tempo impiegato per andare al lavoro/scuola (minuti),alfa.,transportation,employment,education
+60,1,DIVCOM,Categorica,"",Per motivi di lavoro o di studio lei vive con una certa regolarit� prevalentemente in un comune diverso da questo,alfa.,demographics,employment,education
+61,1,STCOM,Categorica,"",Lavora o studia abitualmente nello stesso comune in cui risiede,alfa.,demographics,employment,education
+62,1,STPROV,Categorica,"",Lavora o studia abitualmente  in un altro comune della stessa provincia,alfa.,demographics,employment,education
+63,1,STREG,Categorica,"",Lavora o studia abitualmente in un'altra provincia della stessa regione,alfa.,demographics,employment,education
+64,1,ALTREG,Categorica,"",Lavora o studia abitualmente  in un'altra regione italiana,alfa.,demographics,employment,education
+65,1,ESTERO,Categorica,"",Lavora o studia abitualmente  all'estero,alfa.,demographics,employment,education
+66,1,USOMT,Categorica,"",Uso di mezzo di trasporto pubblico e/o privato per andare a scuola o al lavoro,alfa.,transportation,employment,education
+67,2,TRENO,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: treno,alfa.,transportation,employment,education
+68,2,TRAM,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: tram,alfa.,transportation,employment,education
+69,2,METRO,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: metropolitana,alfa.,transportation,employment,education
+70,2,BUS,Categorica,"","Mezzo di trasporto usato per andare a scuola o al lavoro: autobus, filobus (all'interno del comune)",alfa.,transportation,employment,education
+71,2,COR,Categorica,"","Mezzo di trasporto usato per andare a scuola o al lavoro: pullman, corriera (tra comuni diversi)",alfa.,transportation,employment,education
+72,2,PAZSC,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: pullman aziendale o scolastico,alfa.,transportation,employment,education
+73,2,AUTOC,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: auto privata (come conducente),alfa.,transportation,employment,education
+74,2,AUTOP,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: auto privata (come passeggero),alfa.,transportation,employment,education
+75,2,MOTO,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: motocicletta o ciclomotore,alfa.,transportation,employment,education
+76,2,BICI,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: bicicletta,alfa.,transportation,employment,education
+77,2,ALMEZ,Categorica,"",Mezzo di trasporto usato per andare a scuola o al lavoro: altro mezzo,alfa.,transportation,employment,education
+78,2,MTPUSO,Categorica,"",Mezzo di trasporto utilizzato nel  tratto pi� lungo per andare a scuola o al lavoro,alfa.,transportation,employment,education
+79,1,CARPOO,Categorica,"",Si organizza con colleghi/compagni di studio per andare a lavoro/scuola utilizzando una sola vettura,alfa.,transportation,employment,education
+80,1,TLADO,Categorica,"",Attivit� fisica nel lavoro domestico e familiare,alfa.,employment,,
+81,1,TLAV,Categorica,"",Attivit� fisica nell'attivit� lavorativa,alfa.,employment,,
+82,1,PROSOC,Categorica,"",Negli ultimi 3 mesi ha fatto ricorso a pronto soccorso,alfa.,healthcare,,
+83,2,NPROSOM,Categorica,ricostruita,Quante volte ha fatto ricorso al pronto soccorso,alfa.,healthcare,,
+84,1,GUMED,Categorica,"",Negli ultimi 3 mesi ha fatto ricorso a guardia medica,alfa.,healthcare,,
+85,2,NGUMEDM,Categorica,ricostruita,Quante volte ha fatto ricorso alla guardia medica,alfa.,healthcare,,
+86,1,ASSDO,Categorica,"",Negli ultimi 3 mesi ha fatto ricorso a assistenza domiciliare,alfa.,healthcare,,
+87,2,NASSDOM,Categorica,ricostruita,Quante volte ha fatto ricorso all'assistenza domiciliare,alfa.,healthcare,,
+88,1,RICOV,Categorica,"","Negli ultimi 3 mesi � stato ricoverato in un ospedale, in un istituto di cura accreditato (convenzionato) o in una casa di cura privata?",alfa.,healthcare,,
+89,2,NNRICAM,Categorica,ricostruita,Quante volte � stato ricoverato negli ultimi tre mesi?,alfa.,healthcare,,
+90,2,GGRICAM,Categorica,ricostruita,Per quante notti complessivamente � stato ricoverato negli ultimi tre mesi?,alfa.,healthcare,,
+91,1,CONSPE,Categorica,"",Ha contributo al pagamento delle spese di ricovero,alfa.,healthcare,finance,
+92,1,CONDIR,Categorica,"",Contributo diretto per spese ricovero,alfa.,healthcare,finance,
+93,1,CONASS,Categorica,"",Contributo tramite assicurazione privata per spese ricovero,alfa.,healthcare,finance,
+94,1,QASSAM,Categorica,"",Soddisfazione per ricovero: assistenza medica,alfa.,healthcare,opinion,
+95,1,QASSIN,Categorica,"",Soddisfazione per ricovero: assistenza infermieristica,alfa.,healthcare,opinion,
+96,1,QVITTO,Categorica,"",Soddisfazione per ricovero: vitto,alfa.,healthcare,opinion,
+97,1,QSERIG,Categorica,"",Soddisfazione per ricovero: servizi igienici,alfa.,healthcare,opinion,
+98,1,VISMED12,Categorica,"",negli ultimi 12 mesi ha fatto ricorso a visite presso medici specialisti,alfa.,healthcare,,
+99,1,VSPESA,Categorica,"",spesa per ultima visita specialistica (ultimi 12 mesi),alfa.,healthcare,finance,
+100,1,VISPRE,Categorica,"",l'ultima visita specialistica (ultimi 12 mesi) � stata prescritta da un medico?,alfa.,healthcare,,
+101,1,VISRI1,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi,alfa.,healthcare,,
+102,1,VISRI2,Categorica,"","rinuncia a visita specialistica ultimi 12 mesi: non poteva pagarla, costava troppo",alfa.,healthcare,finance,
+103,1,VISRI3,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi: lista d'attesa lunga,alfa.,healthcare,,
+104,1,VISRI4,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi:  scomodit�,alfa.,healthcare,,
+105,1,VISRI5,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi: non poteva assendarsi dal lavoro,alfa.,healthcare,employment,
+106,1,VISRI6,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi: doveva accudire figli o altre persone,alfa.,healthcare,demographics,
+107,1,VISRI7,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi: altro,alfa.,healthcare,,
+108,1,ANSANG12,Categorica,"",negli ultimi 12 mesi si � sottoposto a esami del sangue?,alfa.,healthcare,,
+109,1,ACCER12,Categorica,"",negli ultimi 12 mesi si � sottoposto a esami specialistici?,alfa.,healthcare,,
+110,1,ASPESA,Categorica,"",spesa per ultimo esame specialistico (ultimi 12 mesi),alfa.,healthcare,finance,
+111,1,ACCPRE,Categorica,"",l'ultimo esame specialistico (ultimi 12 mesi) le � stato prescritto da un medico?,alfa.,healthcare,,
+112,1,ACCRI1,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi,alfa.,healthcare,,
+113,1,ACCRI2,Categorica,"","rinuncia a accertamento specialistico ultimi 12 mesi: non poteva pagarlo, costava troppo",alfa.,healthcare,finance,
+114,1,ACCRI3,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi: lista d'attesa lunga,alfa.,healthcare,,
+115,1,ACCRI4,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi: scomodit�,alfa.,healthcare,,
+116,1,ACCRI5,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi: non poteva assentarsi dal lavoro,alfa.,healthcare,employment,
+117,1,ACCRI6,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi: doveva accudire figli o altre persone,alfa.,healthcare,demographics,
+118,1,ACCRI7,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi: altro,alfa.,healthcare,,
+119,1,NINCDOM,Categorica,ricostruita,Incidente domestico subito negli ultimi 12 mesi: quante volte,alfa.,healthcare,,
+120,1,MINCDO,Categorica,"",Incidente domestico subito negli ultimi 3 mesi,alfa.,healthcare,,
+121,1,MNINCDM,Categorica,ricostruita,Incidente domestico subito negli ultimi 3 mesi: quante volte,alfa.,healthcare,,
+122,1,SPOCON,Categorica,"",Nel suo tempo libero pratica con carattere di continuit� uno o pi� sport?,alfa.,sport,health_behaviour,
+123,1,SPOSAL,Categorica,"",Nel suo tempo libero pratica saltuariamente uno o pi� sport?,alfa.,sport,health_behaviour,
+124,1,ATTFIS,Categorica,"",Le capita di svolgere nel tempo libero qualche attivit� fisica?,alfa.,sport,health_behaviour,
+125,1,FREQSPO,Categorica,"",Frequenza nell'anno delle attivit� sportive praticate,alfa.,sport,health_behaviour,
+126,1,ORESETSP,Categorica,"",Ore di attivit� sportiva praticate nell'ultima settimana,alfa.,sport,health_behaviour,
+127,1,SPPAG,Categorica,"",Negli ultimi 12 mesi ha fatto sport in luoghi a pagamento?,alfa.,sport,finance,
+128,1,SPRIV,Categorica,"",Negli ultimi 12 mesi ha frequentato lezioni private o corsi di sport a spese sue o della famiglia?,alfa.,sport,finance,demographics
+129,1,RETTA,Categorica,"",Paga una retta annua o periodica per un circolo o club sportivo?,alfa.,sport,finance,
+130,1,AMICI,Categorica,"",Con che frequenza si vede con amici nel tempo libero?,alfa.,social_relations,,
+131,1,PARENT,Categorica,"","Ha altri parenti su cui poter contare (oltre a genitori, figli, fratelli e sorelle, nonni e nipoti)",alfa.,social_relations,demographics,
+132,1,AMICI2,Categorica,"",Ha amici su cui poter contare,alfa.,social_relations,,
+133,1,VICINI,Categorica,"",Ha vicini su cui poter contare,alfa.,social_relations,,
+134,1,VISRI8,Categorica,"",rinuncia a visita specialistica ultimi 12 mesi: a causa del Covid19,alfa.,healthcare,,
+135,1,ACCRI8,Categorica,"",rinuncia a accertamento specialistico ultimi 12 mesi: a causa del Covid19,alfa.,healthcare,,
+136,1,CPESO,Categorica,"",Frequenza con cui usa controllare il suo peso,alfa.,health_behaviour,,
+137,1,FARM,Categorica,"",Negli ultimi due giorni ha fatto uso di farmaci?,alfa.,health_behaviour,healthcare,
+138,1,PASTO,Categorica,"",Qual � il suo pasto principale?,alfa.,health_behaviour,food_drink,
+139,1,COLAZ,Categorica,"",Ha l'abitudine di fare la prima colazione? (se la fa pi� di una volta consideri solo la prima),alfa.,other,,
+140,1,LPRAN,Categorica,"",Dove pranza abitualmente nei giorni non festivi? (di scuola o di lavoro),alfa.,education,employment,food_drink
+141,1,MENSA,Categorica,"",Costo mensa aziendale,alfa.,finance,food_drink,
+142,1,PANPAS,Categorica,"","Frequenza consumo: pane, pasta, riso",alfa.,health_behaviour,food_drink,goods
+143,1,SALUMI,Categorica,"",Frequenza consumo: salumi,alfa.,health_behaviour,food_drink,goods
+144,1,POLLO,Categorica,"","Frequenza consumo: carne di pollo, tacchino, coniglio, vitello",alfa.,health_behaviour,food_drink,goods
+145,1,COV,Categorica,"",Frequenza consumo: carni ovine,alfa.,health_behaviour,food_drink,goods
+146,1,CBOV,Categorica,"",Frequenza consumo: carni bovine,alfa.,health_behaviour,food_drink,goods
+147,1,CMAIAL,Categorica,"",Frequenza consumo: carni di maiale (escluso salumi),alfa.,health_behaviour,food_drink,goods
+148,1,LATTE,Categorica,"",Frequenza consumo: latte,alfa.,health_behaviour,food_drink,goods
+149,1,FORM,Categorica,"","Frequenza consumo: formaggi, latticini",alfa.,health_behaviour,food_drink,goods
+150,1,UOVA,Categorica,"",Frequenza consumo: uova,alfa.,health_behaviour,food_drink,goods
+151,1,PESCE,Categorica,"",Frequenza consumo: pesce,alfa.,health_behaviour,food_drink,goods
+152,1,VERD,Categorica,"","Frequenza consumo: verdure in foglia cotte e crude (spinaci, insalate, cicoria, cavolo, broccoli)",alfa.,health_behaviour,food_drink,goods
+153,1,POMOD,Categorica,"","Frequenza consumo: pomodori (escluse conserve), melanzane, peperoni, finocchi, zucchine, carciofi, carote, zucche, cavolfiore, piselli e altri legumi freschi",alfa.,health_behaviour,food_drink,goods
+154,1,FRUTTA,Categorica,"",Frequenza consumo: frutta,alfa.,health_behaviour,food_drink,goods
+155,1,PZVERD,-,1 porzione=1 piatto medio,Numero di porzioni di insalata oppure ortaggi e/o verdura,alfa.,health_behaviour,food_drink,goods
+156,1,PZFRUTTA,-,1 porzione=1 mela o 1 arancia o 2 mandarini,Numero di porzioni di frutta,alfa.,health_behaviour,food_drink,goods
+157,1,LEGUMI,Categorica,"",Frequenza consumo: legumi secchi o in scatola,alfa.,health_behaviour,food_drink,goods
+158,1,PATATE,Categorica,"",Frequenza consumo: patate,alfa.,health_behaviour,food_drink,goods
+159,1,SNACK,Categorica,"","Frequenza consumo: snack salati (patatine, pop corn, salatini, olive)",alfa.,health_behaviour,food_drink,goods
+160,1,DOLCI,Categorica,"","Frequenza consumo: dolci (torte farcite, merendine, gelati, ecc)",alfa.,health_behaviour,food_drink,goods
+161,1,BEVEG,Categorica,"","frequenza consumo bevande vegetali a base di soia, avena, riso, mandorle, miglio",alfa.,health_behaviour,food_drink,goods
+162,1,CGRAS,Categorica,"",Quale dei seguenti grassi usa pi� frequentemente per la cottura dei cibi?,alfa.,health_behaviour,food_drink,
+163,1,FGRAS,Categorica,"","Quale dei seguenti grassi usa pi� frequentemente per il condimento a crudo dei cibi ( insalate, pasta, ecc.) o per panini, tartine, ecc.?",alfa.,health_behaviour,food_drink,
+164,1,QTSALE,Categorica,"",Fa attenzione alla quantit� di sale e/o al consumo di cibi salati?,alfa.,health_behaviour,food_drink,
+165,1,IODIO,Categorica,"",Usa sale arricchito con iodio,alfa.,health_behaviour,food_drink,
+166,1,ACMIN,Categorica,"",Quantit� consumata abitualmente di acqua minerale,alfa.,health_behaviour,food_drink,goods
+167,1,BGAS,Categorica,"",Quantit� consumata abitualmente di bevande gassate (esclusa l'acqua minerale),alfa.,health_behaviour,food_drink,goods
+168,1,BIRRA,Categorica,"",Quantit� consumata abitualmente di  birra,alfa.,health_behaviour,food_drink,goods
+169,1,VINO,Categorica,"",Quantit� consumata abitualmente di  vino,alfa.,health_behaviour,food_drink,goods
+170,2,BICBIRRAM,Categorica,1 bicchiere=1 boccale da 330ml; ricostruita,Quanti bicchieri di birra consuma abitualmente al giorno?,alfa.,health_behaviour,food_drink,goods
+171,2,BICVINOM,Categorica,1 bicchiere=125ml; ricostruita,Quanti bicchieri di vino consuma abitualmente al giorno?,alfa.,health_behaviour,food_drink,goods
+172,1,BFPAS,Categorica,"",Frequenza con cui capita di bere vino o alcolici fuori dai pasti,alfa.,health_behaviour,food_drink,goods
+173,2,BICFUORIM,Categorica,ricostruita,Complessivamente in una settimana quanti bicchieri di vino o alcolici consuma abitualmente fuori dai pasti?,alfa.,health_behaviour,food_drink,goods
+174,1,ANAL,Categorica,"",In quale quantit� consuma abitualmente: aperitivi analcolici,alfa.,health_behaviour,food_drink,goods
+175,1,ALCOL,Categorica,"",In quale quantit� consuma abitualmente: aperitivi alcolici,alfa.,health_behaviour,food_drink,goods
+176,1,AMAR,Categorica,"",In quale quantit� consuma abitualmente: amari,alfa.,health_behaviour,food_drink,goods
+177,1,LIQUOR,Categorica,"",In quale quantit� consuma abitualmente: superalcolici ( o liquori ),alfa.,health_behaviour,food_drink,goods
+178,2,BICALTROM,Categorica,ricostruita,"Numero di bicchieri al giorno di aperitivi alcolici, amari o superalcolici",alfa.,health_behaviour,food_drink,goods
+179,1,ALCOL12,Categorica,"",Consumo di bevande alcoliche negli ultimi 12 mesi,alfa.,health_behaviour,food_drink,goods
+180,1,BICALC,Categorica,"",Consumo di almeno 6 bicchieri di bevande alcoliche in un'unica occasione negli ultimi 12 mesi,alfa.,health_behaviour,food_drink,goods
+181,3,NBICALCM,Categorica,ricostruita,Consumo di almeno 6 bicchieri di bevande alcoliche in un'unica occasione negli ultimi 12 mesi: numero di volte,alfa.,health_behaviour,food_drink,goods
+182,1,DOVCASP,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol: a casa propria,alfa.,health_behaviour,food_drink,goods
+183,1,DOVAMPA,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol: a casa di parenti o amici,alfa.,health_behaviour,food_drink,social_relations
+184,1,DOVRISTO,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol:al ristorante/trattoria/osteria/pizzeria,alfa.,health_behaviour,food_drink,house
+185,1,DOVPUB,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol:al bar/pub/birreria,alfa.,health_behaviour,food_drink,
+186,1,DOVDISCO,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol: in discoteca,alfa.,health_behaviour,food_drink,culture
+187,1,DOVSTR,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol: all'aperto/per strada,alfa.,health_behaviour,food_drink,entertainment
+188,1,DOVALT,Categorica,"",Luogo di consumo di almeno 6 bicchieri di alcol: altro luogo,alfa.,health_behaviour,food_drink,
+189,1,FUMO,Categorica,"",Attualmente fuma?,alfa.,health_behaviour,,
+190,1,FRFUMO,Categorica,"",Con quale frequenza fuma,alfa.,health_behaviour,,
+191,1,TFUMO,Categorica,"",Che cosa fuma prevalentemente,alfa.,health_behaviour,,
+192,2,NSIGARM,Categorica,ricostruita,Quante sigarette fuma in media al giorno,alfa.,health_behaviour,,
+193,1,SALUTE,Categorica,oms,Come va in generale la sua salute?,alfa.,health_behaviour,health_conditions,
+194,1,LIMITA,Categorica,"","A causa di problemi di salute, in che misura lei ha delle limitazioni, che durano da almeno 6 mesi, nelle attivit� che le persone abitualmente svolgono?",alfa.,health_behaviour,,
+195,1,DIAB,Categorica,"",Affetto da malattia cronica: diabete,alfa.,health_conditions,,
+196,1,IPAR,Categorica,"",Affetto da malattia cronica: ipertensione arteriosa,alfa.,health_conditions,,
+197,1,INFAR,Categorica,"",Affetto da malattia cronica: infarto del miocardio,alfa.,health_conditions,,
+198,1,CUORE,Categorica,"",Affetto da malattia cronica: angina pectoris o altre malattie del cuore,alfa.,health_conditions,,
+199,1,BRON,Categorica,"","Affetto da malattia cronica: bronchite cronica, enfisema, insufficienza respiratoria",alfa.,health_conditions,,
+200,1,ASMA,Categorica,"",Affetto da malattia cronica: asma bronchiale,alfa.,health_conditions,,
+201,1,ALLER,Categorica,"",Affetto da malattia cronica: malattie allergiche,alfa.,health_conditions,,
+202,1,TUMOR,Categorica,"",Affetto da malattia cronica: tumore (incluso linfoma e leucemia),alfa.,health_conditions,,
+203,1,ULCER,Categorica,"",Affetto da malattia cronica: ulcera gastrica e duodenale,alfa.,health_conditions,,
+204,1,FEGATO,Categorica,"",Affetto da malattia cronica: calcolosi del fegato o delle vie biliari,alfa.,health_conditions,,
+205,1,CIRRO,Categorica,"",Affetto da malattia cronica: cirrosi epatica,alfa.,health_conditions,,
+206,1,CALRE,Categorica,"",Affetto da malattia cronica: calcolosi renale,alfa.,health_conditions,,
+207,1,ARTRO,Categorica,"","Affetto da malattia cronica: artrosi, artrite",alfa.,health_conditions,,
+208,1,OSTEO,Categorica,"",Affetto da malattia cronica: osteoporosi,alfa.,health_conditions,,
+209,1,SF9,Categorica,"",Per quanto tempo nelle ultime 4 settimane si � sentito calmo e/o sereno,alfa.,other,,
+210,1,SF11,Categorica,"",Per quanto tempo nelle ultime 4 settimane si � sentito scoraggiato e triste,alfa.,other,,
+211,1,SF13,Categorica,"",Per quanto tempo nelle ultime 4 settimane si � sentito molto agitato,alfa.,other,,
+212,1,SF14,Categorica,"",Per quanto tempo nelle ultime 4 settimane si � sentito gi� di morale,alfa.,other,,
+213,1,SF15,Categorica,"",Per quanto tempo nelle ultime 4 settimane si � sentito felice,alfa.,other,,
+214,1,RADIO,Categorica,"",Ha l'abitudine di ascoltare la radio?,alfa.,other,entertainment,
+215,2,HHRAD,-,99=non so,Ore di ascolto della radio al giorno,alfa.,other,entertainment,
+216,2,MMRAD,-,99=non so,Minuti di ascolto della radio al giorno,alfa.,other,entertainment,
+217,1,TELE,Categorica,"",Ha l'abitudine di guardare la tv?,alfa.,other,entertainment,
+218,2,HHTEL,-,99=non so,Per quante ore guarda la televisione,alfa.,other,entertainment,
+219,2,MMTEL,-,99=non so,Per quanti minuti guarda la televisione,alfa.,other,entertainment,
+220,1,FREQSERIE,Categorica,99=non so,frequenza serie tv,alfa.,entertainment,,
+221,1,BIBLIO,Categorica,"",biblioteca negli ultimi 12 mesi,alfa.,culture,,
+222,2,NUMBIBM,Categorica,ricostruita,quante volte si � recato in biblioteca negli ultimi 12 mesi?,alfa.,culture,,
+223,2,BIBLIO1,Categorica,"","in biblioteca per: raccogliere informazioni (generali, bibliografiche, ecc.)",alfa.,culture,,
+224,2,BIBLIO2,Categorica,"",in biblioteca per: consultare cataloghi,alfa.,culture,,
+225,2,BIBLIO3,Categorica,"","in biblioteca per: consultare quotidiani, riviste, altro materiale stampato",alfa.,culture,,
+226,2,BIBLIO4,Categorica,"","in biblioteca per: leggere, studiare",alfa.,culture,,
+227,2,BIBLIO5,Categorica,"",in biblioteca per: prendere in prestito libri,alfa.,culture,,
+228,2,BIBLIO6,Categorica,"",in biblioteca per: prendere in prestito materiale audio-visivo,alfa.,culture,,
+229,2,BIBLIO7,Categorica,"","in biblioteca per: partecipare a lezioni, corsi, ecc.",alfa.,education,culture,
+230,2,BIBLIO8,Categorica,"","in biblioteca per: avere aiuto o assistenza nel fare i compiti, scrivere curriculum, compilare moduli, ecc.",alfa.,culture,education,
+231,2,BIBLIO9,Categorica,"","in biblioteca per: partecipare a conferenze, dibattiti, mostre, ecc.",alfa.,culture,education,
+232,2,BIBLIO10,Categorica,"","in biblioteca per: assistere a concerti, proiezioni di filmati, ecc.",alfa.,culture,,
+233,2,BIBLIO11,Categorica,"",in biblioteca per: assistere a presentazioni di libri,alfa.,culture,,
+234,2,BIBLIO12,Categorica,"",in biblioteca per: navigare su Internet,alfa.,digital,culture,
+235,2,BIBLIO13,Categorica,"",in biblioteca per: incontrare gli amici,alfa.,culture,social_relations,
+236,2,BIBLIO14,Categorica,"",in biblioteca per: partecipare a letture animate ad alta voce,alfa.,culture,,
+237,2,BIBLIO15,Categorica,"","in biblioteca per: partecipare a laboratori (teatrali, musicali, ecc.)",alfa.,culture,education,
+238,2,BIBALTC,Categorica,"",in biblioteca per: altro (codice),alfa.,culture,,
+239,1,BIBONLINE,Categorica,"","Negli ultimi 12 mesi si � mai collegato online al sito di una biblioteca per consultare cataloghi e libri, prenotare prestiti o altro?",alfa.,digital,culture,
+240,1,TEATRO,Categorica,"",Frequenza con cui negli ultimi 12 mesi � andato a teatro?,alfa.,culture,entertainment,
+241,1,CINE,Categorica,"",Frequenza con cui negli ultimi 12 mesi � andato a cinema?,alfa.,entertainment,,
+242,1,MUSEO,Categorica,"",Frequenza con cui negli ultimi 12 mesi � andato a musei o mostre?,alfa.,culture,entertainment,
+243,1,MUSIC,Categorica,"",Frequenza con cui negli ultimi 12 mesi � andato a concerti di musica classica?,alfa.,culture,entertainment,
+244,1,ACMUS,Categorica,"",Frequenza con cui negli ultimi 12 mesi � andato ad altri concerti di musica?,alfa.,culture,entertainment,
+245,1,SPSPO,Categorica,"",Frequenza con cui negli ultimi 12 mesi � andato a spettacoli sportivi?,alfa.,culture,sport,entertainment
+246,1,DISCO,Categorica,"","Frequenza con cui negli ultimi 12 mesi � andato in discoteche, balere, night club o altri luoghi dove ballare?",alfa.,entertainment,,
+247,1,MONUM,Categorica,"","Frequenza con cui negli ultimi 12 mesi � andato in siti archeologici, monumenti?",alfa.,culture,entertainment,traveling
+248,1,PCTEMPO,Categorica,"",Lei ha mai usato il personal computer?,alfa.,digital,,
+249,1,FREQPC12,Categorica,"",Frequenza d'uso del personal computer negli ultimi 12 mesi,alfa.,digital,,
+250,1,INTTEMPO,Categorica,"",Lei ha mai usato Internet?,alfa.,digital,,
+251,1,FREQIN12,Categorica,"",Frequenza d'uso di Internet negli ultimi 12 mesi,alfa.,digital,,
+252,1,FREQ_GG,Categorica,"",utilizzo di Internet pi� volte al giorno,alfa.,digital,,
+253,1,INCOMU5,Categorica,"",negli ultimi 3 mesi ha spedito o ricevuto mail,alfa.,digital,,
+254,1,INCOMU1b,Categorica,"",negli ultimi 3 mesi ha telefonato/effettuato videochiamate,alfa.,digital,,
+255,1,INCOMU4AGG,-,"","negli ultimi 3 mesi ha usato messaggeria istantanea (es. WhatsApp, Skype, Viber, Snapchat)",alfa.,digital,,
+256,1,INCOMU6,Categorica,"","negli ultimi 3 mesi ha partecipato a social network (creare un profilo utente, postare messaggi o altro su Facebook, Twitter, ecc.)",alfa.,digital,social_relations,
+257,1,INCOMU7,Categorica,"","negli ultimi 3 mesi ha espresso opinioni su temi sociali o politici su web (ad esempio tramite blog, social network, ecc.)",alfa.,digital,social_relations,
+258,1,INCOMU8,Categorica,"","negli ultimi 3 mesi ha partecipato a consultazioni o votazioni online su temi sociali (civici) o politici (es. pianificazione urbana, firmare una petizione)",alfa.,digital,social_relations,
+259,1,INTATT26,Categorica,"",negli ultimi 3 mesi ha condiviso o pubblicato contenuti di propria creazione,alfa.,digital,,
+260,1,INTATT8,Categorica,"","negli ultimi 3 mesi ha letto giornali, informazioni, riviste online",alfa.,digital,culture,
+261,1,INTATT31,Categorica,"",negli ultimi 3 mesi ha letto o scaricato libri online o e_book,alfa.,digital,culture,
+262,1,INTATT32,Categorica,"",neglli utlimi3 mesi ascoltare la musica,alfa.,entertainment,digital,other
+263,1,INTATT7BN,Categorica,"",negli ultimi 3 mesi ha guardato la televisione in streaming,alfa.,entertainment,digital,other
+264,1,INTATT30A,Categorica,"",negli ultimi 3 mesi ha guardato video on demand,alfa.,entertainment,digital,other
+265,1,INTATT30B,Categorica,"",negli ultimi 3 mesi ha guardato contenuti video da servizi di condivisione (es. Youtube),alfa.,entertainment,digital,other
+266,1,INTATT28B,Categorica,"",negli ultimi 3 mesi ha giocato o scaricato giochi,alfa.,entertainment,digital,other
+267,1,INTATT14,Categorica,"",negli ultimi 3 mesi ha cercato informazioni sanitarie,alfa.,health_behaviour,digital,other
+268,1,INTSAL3,Categorica,"",negli ultimi 3 mesi ha preso un appuntamento con un medico,alfa.,healthcare,digital,other
+269,1,INTFASC,Categorica,"",negli ultimi 3 mesi ha acceduto al fascicolo sanitario elettronico,alfa.,healthcare,digital,other
+270,1,INTALTSAL,Categorica,"",negli ultimi 3 mesi ha utilizzato altri servizi sanitari,alfa.,healthcare,digital,other
+271,1,INTATT4,Categorica,"",negli ultimi 3 mesi ha cercato lavoro,alfa.,employment,digital,
+272,1,INTATT11,Categorica,"",negli ultimi 3 mesi ha usato servizi bancari via Internet,alfa.,digital,,
+273,1,INTATT13,Categorica,"",negli ultimi 3 mesi ha venduto merci o servizi,alfa.,goods,other,
+274,1,INTATT16,Categorica,"",negli ultimi 3 mesi ha cercato informazioni su merci o servizi,alfa.,goods,other,
+275,1,INTATT18A,Categorica,"",negli ultimi 3 mesi ha fatto un corso di formazione online,alfa.,education,digital,
+276,1,MATDID_N,Categorica,"","negli ultimi 3 mesi ha ulizzato materiale didattico online  esclusi i corsi completi es. video tutorial,  webinar, libri di testo elettronici, app o piattaforme per l�apprendimento",alfa.,education,digital,
+277,1,COM_STUDn,Categorica,"","negli ultimi 3 mesi ha Comunicato con docenti o studenti utilizzando audio o video online (es. Zoom, MS Teams, Google Classroom, Meet)",alfa.,digital,education,
+278,1,FOR_SC,Categorica,"","motivi  per cuiI ha partecipato a tali attivit� di formazione: scolastici, universitari, accademici, ecc. legati all�istruzione formale",alfa.,education,digital,
+279,1,FOR_LAV,Categorica,"",motivi per cui ha partecipato a tali attivit� di formazione: professionali/legati all�attivit� lavorativa,alfa.,education,employment,digital
+280,1,FOR_PR,Categorica,"",motivi  per cuiI ha partecipato a tali attivit� di formazione: motivi privati,alfa.,education,digital,
+281,1,COSINT9a,Categorica,"","negli ultimi 12 mesi  ha svolto operazioni finanziarie per uso privato su Internet (escluse e-mail): acquistare/vendere azioni, obbligazioni fondi o altri servizi finanziari",alfa.,finance,digital,other
+282,1,COSINT9b,Categorica,"",negli ultimi 12 mesi  ha svolto operazioni finanziarie per uso privato su Internet (escluse e-mail): acquistare/rinnovare polizze assicurative,alfa.,digital,other,
+283,1,COSINT9c,Categorica,"",negli ultimi 12 mesi  ha svolto operazioni finanziarie per uso privato su Internet (escluse e-mail): ottenere un prestito/credito da banche o da altri fornitori di servizi finanziari,alfa.,digital,other,
+284,1,PA_CO,Categorica,"",negli ultimi 12 mesi ha usato Internet per Accedere alle informazioni acquisite sul proprio conto dalla Pubblica Amministrazione,alfa.,digital,other,
+285,1,PA_BA,Categorica,"",negli ultimi 12 mesi ha usato Internet perAccedere alle informazioni da banche dati o registri Pubblici,alfa.,digital,other,
+286,1,PA_SE,Categorica,"",negli ultimi 12 mesi ha usato Internet per ottenere informazioni sui servizi benefici ecc,alfa.,digital,other,
+287,1,PA_DWN,Categorica,"",negli ultimi 12 mesi ha usato Internet per scaricare stampare moduli ufficiali dai siti della PA,alfa.,digital,other,
+288,1,PA_PRE,Categorica,"",negli ultimi 12 mesi ha usato Internet per prendere un appuntamento tramite un sito web della PA,alfa.,digital,other,
+289,1,PA_RED,Categorica,"",Negli ultimi 12 mesi ha presentato la dichiarazione dei redditi  per via telematica:,alfa.,digital,finance,other
+290,1,PA_CER,Categorica,"","Negli ultimi 12 mesi, per motivi privati, ha utilizzato siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici per:  richiesta certificati",alfa.,digital,other,
+291,1,PA_PPS,Categorica,"","Negli ultimi 12 mesi, per motivi privati, ha utilizzato siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici per:  richiesta prestazioni previdenza sociale",alfa.,digital,other,
+292,1,PA_SC,Categorica,"","Negli ultimi 12 mesi, per motivi privati, ha utilizzato siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici per: iscrizione scuola",alfa.,digital,education,other
+293,1,PA_alt,Categorica,"","Negli ultimi 12 mesi, per motivi privati, ha utilizzato siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici per: altre istanze",alfa.,digital,other,
+294,1,PANO_DOC,Categorica,"","Motivi per cui non ha richiesto documenti ufficiali, prestazioni di previdenza sociale altre istanze: non dovevo richiedere alcun documento",alfa.,digital,other,
+295,1,PANO_SKIL,Categorica,"","Motivi per cui non ha richiesto documenti ufficiali, prestazioni di previdenza sociale altre istanze:  mancanza di competenze",alfa.,digital,other,opinion
+296,1,PANO_SIC,Categorica,"","Motivi per cui non ha richiesto documenti ufficiali, prestazioni di previdenza sociale altre istanze:  preoccupato per la sicurezza dei dati personali",alfa.,digital,other,opinion
+297,1,PANO_PER,Categorica,"","Motivi per cui non ha richiesto documenti ufficiali, prestazioni di previdenza sociale altre istanze:   un'altra persona l'ha fatto al posto mio",alfa.,digital,other,
+298,1,PANO_alt,Categorica,"","Motivi per cui non ha richiesto documenti ufficiali, prestazioni di previdenza sociale altre istanze:  altro",alfa.,digital,other,
+299,1,PAPR_APP,Categorica,"",problemi  riscontrati nell'utilizzo di siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici: difficolt� ad usare il sito web o app,alfa.,digital,other,
+300,1,PAPR_TEC,Categorica,"",problemi  riscontrati nell'utilizzo di siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici: problemi tecnici durante l'utilizzo,alfa.,digital,other,
+301,1,PAPR_ACC,Categorica,"",problemi  riscontrati nell'utilizzo di siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici: difficolt� ad accedere al servizio,alfa.,digital,other,
+302,1,PAPR_ALT,Categorica,"",problemi  riscontrati nell'utilizzo di siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici: altro,alfa.,digital,other,
+303,1,PAPR_NO,Categorica,"",problemi  riscontrati nell'utilizzo di siti web o app della Pubblica Amministrazione o dei gestori dei servizi pubblici: nessun problema,alfa.,digital,other,
+304,1,INTCOM,Categorica,"",ha mai comprato o ordinato merci e/o servizi per uso privato su internet,alfa.,digital,goods,
+305,2,B_abb,Categorica,"","negli ultimi 3 mesi ha comprato capi di Abbigliamento, incluso quello sportivo, scarpe o accessori (es. borse, gioielli, ecc.)",alfa.,purchase_habits,sport,goods
+306,2,B_SPORT,Categorica,"",negli ultimi 3 mesi ha comprato articoli sportivi,alfa.,purchase_habits,sport,goods
+307,2,B_TOYS,Categorica,"",negli ultimi 3 mesi ha comprato giocattoli,alfa.,purchase_habits,entertainment,goods
+308,2,B_HOME,Categorica,"",negli ultimi 3 mesi ha comprato articoli per la casa,alfa.,purchase_habits,house,goods
+309,2,B_MUSICA,Categorica,"",negli ultimi 3 mesi ha comprato musica su cd,alfa.,purchase_habits,entertainment,goods
+310,2,B_FILM,Categorica,"",negli ultimi 3 mesi ha comprato film o serie,alfa.,purchase_habits,entertainment,goods
+311,2,B_LIBRI,Categorica,"",negli ultimi 3 mesi ha comprato libri,alfa.,purchase_habits,culture,entertainment
+312,2,B_PC,Categorica,"","negli ultimi 3 mesi ha comprato Computer, tablet, telefoni cellulari, smartphone",alfa.,purchase_habits,digital,goods
+313,2,B_TV,Categorica,"",negli ultimi 3 mesi ha comprato TV,alfa.,purchase_habits,goods,
+314,2,B_FARM,Categorica,"",negli ultimi 3 mesi ha comprato  farmaci,alfa.,purchase_habits,health_behaviour,goods
+315,2,B_PASTI,Categorica,"",negli ultimi 3 mesi ha comprato  consegne da ristoranti pasti,alfa.,purchase_habits,food_drink,goods
+316,2,B_CIBO,Categorica,"",negli ultimi 3 mesi ha comprato prodotti alimentari,alfa.,purchase_habits,food_drink,goods
+317,2,B_COSM,Categorica,"",negli ultimi 3 mesi ha comprato prodotti di cosmesi,alfa.,purchase_habits,goods,
+318,2,B_IGENE,Categorica,"",negli ultimi 3 mesi ha comprato prodotti per la  pulizia della casa,alfa.,purchase_habits,goods,house
+319,2,B_VEICOLI,Categorica,"","negli ultimi 3 mesi ha comprato biciclette, ciclomotori auto",alfa.,purchase_habits,transportation,goods
+320,2,B_ALT,Categorica,"",negli ultimi 3 mesi ha comprato ALTRE MERCI,alfa.,purchase_habits,goods,
+321,2,B_NO,Categorica,"",negli ultimi 3 mesi non ho comprato merci,alfa.,purchase_habits,goods,
+322,1,B_P2P,Categorica,"",Negli ultimi 3 mesi ha ordinato o comprato merci direttamente da persone private su un sito web o tramite app.,alfa.,purchase_habits,digital,goods
+323,1,VENDI1,Categorica,"",negli ultimi 12 mesi ha ordinato o comprato merci e/o servizi per uso privato su Internet da venditore nazionale,alfa.,purchase_habits,digital,goods
+324,1,VENDI2,Categorica,"",negli ultimi 12 mesi ha ordinato o comprato merci e/o servizi per uso privato su Internet da venditore di altro paese UE,alfa.,purchase_habits,digital,goods
+325,1,VENDI3,Categorica,"",negli ultimi 12 mesi ha ordinato o comprato merci e/o servizi per uso privato su Internet da venditore dal resto del Mondo,alfa.,purchase_habits,digital,goods
+326,1,VENDI4,Categorica,"",negli ultimi 12 mesi ha ordinato o comprato merci e/o servizi per uso privato su Internet senza conoscere il paese di origine del venditore,alfa.,purchase_habits,digital,goods
+327,1,S_MUSIC,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:Musica,alfa.,purchase_habits,entertainment,
+328,1,S_FILM,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:FILM,alfa.,purchase_habits,entertainment,
+329,1,S_BOOK,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:LIBRI,alfa.,purchase_habits,culture,entertainment
+330,1,S_GIOCHI,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento: GIOCHI,alfa.,purchase_habits,entertainment,
+331,1,S_SOFT,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:SOFTWARE,alfa.,purchase_habits,digital,
+332,1,S_SAL,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:APP SALUTE,alfa.,purchase_habits,health_behaviour,other
+333,1,S_APPAL,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:ALTRE APP,alfa.,purchase_habits,other,
+334,1,S_NOAPP,Categorica,"",Negli ultimi 3 mesi ha acquistato o si � abbonato a uno dei seguenti servizi a pagamento:NESSUNO DI QUESTI SERVIZI,alfa.,purchase_habits,other,
+335,1,MS_BSPOR,Categorica,"",Negli ultimi 3 mesi quali tipi di merci e/o servizi ha acquistato: Biglietti per eventi sportivi,alfa.,purchase_habits,sport,
+336,1,MS_BCONC,Categorica,"",Negli ultimi 3 mesi quali tipi di merci e/o servizi ha acquistato: Biglietti per concerti,alfa.,purchase_habits,other,
+337,1,MS_ABBINT,Categorica,"",Negli ultimi 3 mesi quali tipi di merci e/o servizi ha acquistato:Abbonamenti ad internet o a connessioni di telefonia mobile,alfa.,purchase_habits,digital,
+338,1,MS_ABBELE,Categorica,"",Negli ultimi 3 mesi quali tipi di merci e/o servizi ha acquistato:Abbonamenti fornitura elettricit�,alfa.,purchase_habits,energy,
+339,1,MS_NO,Categorica,"",Negli ultimi 3 mesi quali tipi di merci e/o servizi ha acquistato:non ho acqusitato,alfa.,purchase_habits,other,
+340,1,P2P_BABYAG,Categorica,"","Negli ultimi 3 mesi ha acquistato servizi di giardinaggio, baby-sitting, pulizie o altri servizi per la famiglia:Utilizzando appositi siti web o app",alfa.,purchase_habits,digital,
+341,1,P2P_BABY,Categorica,"","Negli ultimi 3 mesi ha acquistato servizi di giardinaggio, baby-sitting, pulizie o altri servizi per la famiglia  contattando direttamente un privato",alfa.,purchase_habits,,
+342,1,P2P_TRAAG,Categorica,"",Negli ultimi 3 mesi ha acquistato un servizio di trasporto su un sito web o tramite app: Utilizzando appostiti siti web o app di agenzie,alfa.,purchase_habits,transportation,digital
+343,1,P2P_TRAN2,Categorica,"",negli ultimi 3 mesi ha acquistato un servizio di trasporto su un sito web o tramite app: contattando direttamente un privato,alfa.,purchase_habits,transportation,
+344,1,P2P_ACCAG,Categorica,"",Negli ultimi 3 mesi ha affittato un alloggio su un sito web o tramite app:Attraverso un�agenzia di viaggi o contattando direttamente la struttura alberghiera,alfa.,traveling,digital,
+345,1,P2P_ACC2,Categorica,"",Negli ultimi 3 mesi ha affittato un alloggio su un sito web o tramite app:contattando direttamente un privato,alfa.,traveling,digital,
+346,1,ECO_smart,Categorica,"",modalit� di dismissione del cellulare che non utilizza pi� o che ha sostituito,alfa.,digital,other,
+347,1,ECO_lap,Categorica,"",modalit� di dismissione del laptop o tablet che non utilizza pi� o che ha sostituito,alfa.,digital,other,
+348,1,ECO_pc,Categorica,"",modalit� di dismissione del pc fisso che non utilizza pi� o che ha sostituito,alfa.,digital,other,
+349,1,IOT_ALRM,Categorica,"",Quali dei seguenti dispositivi o sistemi connessi ad internet ha utilizzato: Sistemi connessi a Internet sistemi di allarme,alfa.,digital,,
+350,1,IOT_ASS,Categorica,"",Quali dei seguenti dispositivi o sistemi connessi ad internet ha utilizzato: App che svolgono la funzione di assistenti virtuali,alfa.,digital,,
+351,1,IOT_ENER,Categorica,"",Quali dei seguenti dispositivi o sistemi connessi ad internet ha utilizzato:Sistemi connessi a Internet per la gestione energetica della propria abitazione,alfa.,digital,energy,
+352,1,IOT_ELET,Categorica,"",Quali dei seguenti dispositivi o sistemi connessi ad internet  ha utilizzato:elettrodomestici,alfa.,digital,,
+353,1,IOT_NODISP,Categorica,"",Quali dei seguenti dispositivi o sistemi connessi ad internet ha utilizzato: Non ho utilizzato nessun dei precedenti dispositivi o sistemi,alfa.,digital,,
+354,1,IOT_NOKNW,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Non sapevo dell�esistenza di tali dispositivi e/o sistemi,alfa.,digital,,
+355,1,IOT_NOSER,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet:Non mi serve/Non mi � utile,alfa.,digital,,
+356,1,IOT_NOCOST,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Per i costi elevati,alfa.,digital,finance,
+357,1,IOT_NOSKIL,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Non saprei utilizzare questi dispositivi o sistemi,alfa.,digital,,
+358,1,IOT_NOCOMP,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Non sono compatibili con gli altri dispositivi o sistemi di cui dispongo,alfa.,digital,,
+359,1,IOT_NOPRIVA,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Per la tutela della privacy e per la sicurezza dei dati personali,alfa.,digital,,
+360,1,IOT_NOSICU,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Per motivi di sicurezza (es. timore che il dispositivo o il sistema siano violati),alfa.,digital,,
+361,1,IOT_NOSAL,Categorica,"","Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: Per  evitare incidenti, infortuni o problemi di salute",alfa.,digital,health_behaviour,
+362,1,IOT_NOALT,Categorica,"",Per quale motivo non ha utilizzato nessuno dei dispositivi o sistemi connessi ad internet: altri motivi,alfa.,digital,,
+363,1,IOT_TVN,Categorica,"","dispostivi usati, se presenti nella sua abitazione smart-tv",alfa.,goods,digital,other
+364,1,IOT_CONSN,Categorica,"","dispostivi usati, se presenti nella sua abitazione, consolle per videogiochi",alfa.,goods,digital,other
+365,1,IOT_BLUEN,Categorica,"","dispostivi usati, se presenti nella sua abitazione: smart speker Casse, altoparlanti e/o altri sistemi audio collegati ad Internet tramite WIFI/bluetooth",alfa.,goods,digital,other
+366,1,IOT_watcN,Categorica,"","dispositivi connessi ad internet utilizzati: Smart watch, fascia per il fitness, cuffie e/o occhiali connessi ad internet",alfa.,digital,goods,other
+367,1,IOT_SALN,Categorica,"","dispositivi connessi ad internet utilizzati:  Dispositivi per monitorare la pressione sanguigna, il livello di zucchero, il peso corporeo (es. bilance intelligenti) o altri dispositivi connessi a Internet per la salute e l'assistenza medica",alfa.,digital,health_behaviour,goods
+368,1,IOT_TOYN,Categorica,"",dispositivi connessi ad internet utilizzati: Giocattoli connessi ad Internet (ad es.  robot o pupazzi) compresi quelli educativi,alfa.,digital,goods,other
+369,1,IOT_CARN,Categorica,"",dispositivi connessi ad internet utilizzati: Connessione wireless integrata nell�automobile,alfa.,digital,transportation,other
+370,1,USOCEL,Categorica,"",Frequenza con cui usa il cellulare,alfa.,digital,other,
+371,1,CENFUO,Categorica,"",Frequenza con cui va a cena o pranzo fuori,alfa.,entertainment,food_drink,other
+372,1,LQUOT,Categorica,"",Legge quotidiani almeno una volta alla settimana?,alfa.,culture,goods,other
+373,1,QUONLINE,Categorica,"",Legge quotidiani online almeno una volta alla settimana?,alfa.,culture,digital,other
+374,1,LIBRI,Categorica,"",ha letto libri negli ultimi 12 mesi?,alfa.,culture,entertainment,other
+375,2,NLIBRIM,Categorica,ricostruita,Numero di libri letti negli ultimi 12 mesi (considerare solo i libri letti per motivi non strettamente scolastici o professionali),alfa.,culture,entertainment,other
+376,2,NLIBRI_CARM,Categorica,ricostruita,numero di libri cartacei letti,alfa.,culture,entertainment,other
+377,2,NLEBOOM,Categorica,ricostruita,Numero di e-book letti negli ultimi 12 mesi,alfa.,culture,entertainment,digital
+378,2,NLAUDIOM,Categorica,ricostruita,Numero di audiolibri ascoltati negli ultimi 12 mesi,alfa.,culture,entertainment,digital
+379,1,RIVSET,Categorica,"",Abitualmente legge qualche rivista settimanale?,alfa.,entertainment,,
+380,1,NOSETT,Categorica,"",Abitualmente legge qualche periodico non settimanale?,alfa.,entertainment,,
+381,1,CHIES,Categorica,"",Abitualmente con che frequenza si reca in chiesa o in altro luogo di culto?,alfa.,other,,
+382,1,SITEC,Categorica,"",Soddisfazione per la situazione economica negli ultimi 12 mesi,alfa.,opinion,finance,other
+383,1,SALUT,Categorica,"",Soddisfazione per la propria salute negli ultimi 12 mesi,alfa.,opinion,health_behaviour,other
+384,1,RELFAM,Categorica,"",Soddisfazione per le relazioni familiari negli ultimi 12 mesi,alfa.,opinion,social_relations,other
+385,1,RELAM,Categorica,"",Soddisfazione per le relazioni con amici negli ultimi 12 mesi,alfa.,opinion,social_relations,other
+386,1,TEMLIB,Categorica,"",Soddisfazione per il tempo libero negli ultimi 12 mesi,alfa.,opinion,entertainment,other
+387,1,AMBIENTE,Categorica,"","Soddisfazione per la situazione ambientale (aria, acqua, ecc.) della zona in cui vive",alfa.,opinion,health_behaviour,other
+388,1,PAESAGGIO,Categorica,"","Secondo lei, il paesaggio del luogo in cui vive � affetto da evidente degrado?",alfa.,opinion,health_conditions,other
+389,1,SODLAV2,Categorica,Solo per le persone che lavorano,Pensi agli ultimi 12 mesi. Lei si ritiene soddisfatto del suo lavoro?,alfa.,opinion,employment,other
+390,1,POLIT,Categorica,"",Con quale frequenza le capita di parlare di politica?,alfa.,social_commitment,,
+391,1,PPAPO,Categorica,"",Ha partecipato negli ultimi 12 mesi a riunioni di: partiti politici,alfa.,social_commitment,,
+392,1,PSIND,Categorica,"","Ha partecipato negli ultimi 12 mesi a riunioni di: organizzazioni sindacali ( sindacati confederati, autonomi, sindacati di tutte le categorie, anche dei pensionati ecc.)",alfa.,social_commitment,,
+393,1,PGRVO,Categorica,"",Ha partecipato negli ultimi 12 mesi a riunioni di: associazioni o gruppi di volontariato,alfa.,social_commitment,,
+394,1,PAECO,Categorica,"",Ha partecipato negli ultimi 12 mesi a riunioni di: associazioni ecologiche per i diritti civili per la pace,alfa.,social_commitment,,
+395,1,PCULT,Categorica,"","Ha partecipato negli ultimi 12 mesi a riunioni di: associazioni culturali, ricreative o di altro tipo",alfa.,social_commitment,culture,
+396,1,PASPRO,Categorica,"",Ha partecipato negli ultimi 12 mesi a riunioni di: associazioni professionali o di categoria,alfa.,social_commitment,employment,
+397,1,COMIZ,Categorica,"",Negli ultimi 12 mesi ha partecipato a un comizio,alfa.,social_commitment,,
+398,1,CORTEI,Categorica,"",Negli ultimi 12 mesi ha partecipato a un corteo,alfa.,social_commitment,,
+399,1,DIBPO,Categorica,"",Negli utlimi 12 mesi ha sentito un dibattito politico,alfa.,social_commitment,,
+400,1,FINPA,Categorica,"","Negli ultimi 12 mesi ha dato soldi a un partito ( per sottoscrizione, sostegno)",alfa.,social_commitment,finance,
+401,1,FINAS,Categorica,"",Negli ultimi 12 mesi ha dato soldi ad un'associazione,alfa.,social_commitment,finance,
+402,1,VOLON,Categorica,"",Negli ultimi 12 mesi ha svolto attivit� gratuita per associazioni o gruppi di volontariato,alfa.,social_commitment,,
+403,1,ATGRA,Categorica,"",Negli ultimi 12 mesi ha svolto attivit� gratuita per un'associazione non di volontariato,alfa.,social_commitment,,
+404,1,VOLPA,Categorica,"",Negli ultimi 12 mesi ha svolto attivit� gratuita per un partito,alfa.,social_commitment,,
+405,1,VOLSI,Categorica,"",Negli ultimi 12 mesi ha svolto attivit� gratuita per un sindacato,alfa.,social_commitment,,
+406,1,INCSPI,Categorica,"","Negli ultimi 12 mesi ha partecipato a incontri o iniziative realizzate o promosse da parrocchie, congregazioni o gruppi di ispirazione religiosa o spirituale?",alfa.,social_commitment,,
+407,1,POLITI,Categorica,"",Con che frequenza si informa dei fatti della politica italiana?,alfa.,social_commitment,,
+408,2,PRADIO,Categorica,"",Si informa di politica attraverso: radio,alfa.,social_commitment,,
+409,2,PTELEV,Categorica,"",Si informa di politica attraverso: televisione,alfa.,social_commitment,,
+410,2,PQUOT,Categorica,"",Si informa di politica attraverso: quotidiani,alfa.,social_commitment,,
+411,2,PSETT,Categorica,"",Si informa di politica attraverso: settimanali,alfa.,social_commitment,,
+412,2,PARIV,Categorica,"",Si informa di politica attraverso: altre riviste non settimanali,alfa.,social_commitment,,
+413,2,PAMICI,Categorica,"",Si informa di politica attraverso: amici,alfa.,social_commitment,social_relations,
+414,2,PPAREN,Categorica,"",Si informa di politica attraverso: parenti,alfa.,social_commitment,social_relations,
+415,2,PCONOS,Categorica,"",Si informa di politica attraverso: conoscenti,alfa.,social_commitment,,
+416,2,PCOLAV,Categorica,"",Si informa di politica attraverso: colleghi di lavoro,alfa.,social_commitment,employment,
+417,2,ORGPOL,Categorica,"",Si informa di politica attraverso: incontri o riunioni presso organizzazioni politiche,alfa.,social_commitment,,
+418,2,ORGSIN,Categorica,"",Si informa di politica attraverso: incontri o riunioni presso organizzazioni sindacali,alfa.,social_commitment,,
+419,2,ALTPOL,Categorica,"",Si informa di politica attraverso: altro,alfa.,social_commitment,,
+420,1,PWEB,Categorica,"",Si informa dei fatti della politica attraverso Internet?,alfa.,social_commitment,digital,
+421,1,PWEBM1_1,Categorica,"","in che modo si informa dei fatti della politica attraverso Internet: legge o scarica giornali, news",alfa.,social_commitment,digital,
+422,1,PWEBM1_2,Categorica,"",in che modo si informa dei fatti della politica attraverso Internet: legge o scarica riviste online,alfa.,social_commitment,digital,
+423,1,PWEBM2,Categorica,"",In che modo si informa dei fatti della politica attraverso Internet: ascolta radio e TV online,alfa.,social_commitment,digital,
+424,1,PWEBM3,Categorica,"",In che modo si informa dei fatti della politica attraverso Internet: tramite siti di partiti politici,alfa.,social_commitment,digital,
+425,1,PWEBM4,Categorica,"","In che modo si informa dei fatti della politica attraverso Internet: tramite i social network (es. facebook, twitter, myspace, ecc.)",alfa.,social_commitment,digital,social_relations
+426,1,PWEBM5,Categorica,"","In che modo si informa dei fatti della politica attraverso Internet: tramite blog, newsgroup o forum di discussione online",alfa.,social_commitment,digital,
+427,1,PWEBM6,Categorica,"",In che modo si informa dei fatti della politica attraverso Internet: altro,alfa.,social_commitment,digital,
+428,1,NPOLI,Categorica,"",Motivo per cui non si informa mai di politica: non mi interessa,alfa.,social_commitment,,
+429,1,NTPOLI,Categorica,"",Motivo per cui non si informa mai di politica: non ho tempo,alfa.,social_commitment,,
+430,1,POLCOM,Categorica,"",Motivo per cui non si informa mai di politica: � un argomento troppo complicato,alfa.,social_commitment,,
+431,1,SFIPOL,Categorica,"",Motivo per cui non si informa mai di politica: sono sfiduciato della politica italiana,alfa.,social_commitment,,
+432,1,NALTPO,Categorica,"",Motivo per cui non si informa mai di politica: altro,alfa.,social_commitment,,
+433,1,UFFAN,Categorica,"","Negli ultimi 12 mesi le � capitato di servirsi degli uffici anagrafici ( comune, circoscrizione, anagrafe), per certificati, documenti, autentiche e altre pratiche",alfa.,other,,
+434,1,TUFAN,Categorica,"",In genere quanto aspetta in fila prima di essere servito?,alfa.,other,,
+435,1,GORAR,Categorica,"",Trova comodo l'orario?,alfa.,other,,
+436,1,CORAR,Categorica,"",Se le si desse l'opportunit� di cambiare l'orario di sportello come lo vorrebbe?,alfa.,other,,
+437,1,USOSS,Categorica,"",Negli ultimi 12 mesi si � recato in una ASL per prenotare una visita o un'analisi o per pratiche amministrative?,alfa.,healthcare,other,
+438,1,TEMSS,Categorica,"",In genere quanto aspetta in fila prima di essere servito?,alfa.,healthcare,other,
+439,1,GOUSL,Categorica,"",Trova comodo l'orario?,alfa.,healthcare,other,
+440,1,COUSL,Categorica,"",Se le si desse l'opportunit� di cambiare l'orario di sportello come lo vorrebbe?,alfa.,healthcare,other,
+441,1,UFFPOS,Categorica,"",Negli ultimi 12 mesi si � recato presso un ufficio postale?,alfa.,other,,
+442,1,RACCO,Categorica,"",Frequenza con cui si reca all'ufficio postale per: spedizione raccomandate,alfa.,other,,
+443,1,VAGLIA,Categorica,"",Frequenza con cui si reca all'ufficio postale per: spedizione vaglia,alfa.,other,,
+444,1,VCOC,Categorica,"",Frequenza con cui si reca all'ufficio postale per: versamenti in conto corrente,alfa.,other,,
+445,1,RPENS,Categorica,"",Frequenza con cui si reca all'ufficio postale per: ritiro pensioni,alfa.,other,,
+446,1,RPARA,Categorica,"",Frequenza con cui si reca all'ufficio postale per: ritiro pacchi o raccomandate,alfa.,other,,
+447,1,TRACC,Categorica,"",Tempo di attesa in fila per spedizione raccomandate,alfa.,other,,
+448,1,TVAGL,Categorica,"",Tempo di attesa in fila per spedizione vaglia,alfa.,other,,
+449,1,TCCP,Categorica,"",Tempo di attesa in fila per versamenti in conto corrente,alfa.,other,,
+450,1,TRPEN,Categorica,"",Tempo di attesa in fila per ritiro pensioni,alfa.,other,,
+451,1,TPARA,Categorica,"",Tempo di attesa in fila per ritiro pacchi o raccomandate,alfa.,other,,
+452,1,GOSPO,Categorica,"",Trova comodo l'orario?,alfa.,other,,
+453,1,COSPO,Categorica,"",se le si desse l'opportunit� di cambiare l'orario di sportello come lo vorrebbe?,alfa.,opinion,other,
+454,1,BANCA,Categorica,"","Negli ultimi 12 mesi le � capitato di servirsi di una banca per operazioni di sportello come versamenti, assegni circolari, prelievi (escluso il bancomat) ecc.?",alfa.,finance,other,
+455,1,TABAN,Categorica,"",In genere quanto aspetta in fila prima di essere servito?,alfa.,other,,
+456,1,BANCM,Categorica,"",Possiede il bancomat?,alfa.,finance,purchase_habits,other
+457,1,CCRED,Categorica,"",Possiede carta di credito?,alfa.,finance,purchase_habits,other
+458,2,NCCREDM,Categorica,ricostruita,Quante carte di credito possiede?,alfa.,finance,purchase_habits,other
+459,1,USOTRAM,Categorica,"","Utilizza autobus, filobus, tram all'interno del suo comune?",alfa.,transportation,other,
+460,1,FCORS,Categorica,"",Giudizio su: frequenza delle corse,alfa.,transportation,opinion,other
+461,1,PUNT,Categorica,"",Giudizio su: puntualit�,alfa.,transportation,opinion,other
+462,1,POSSE,Categorica,"",Giudizio su: possibilit� di trovare posto a sedere,alfa.,transportation,opinion,other
+463,1,VELCO,Categorica,"",Giudizio su: velocit� della corsa,alfa.,transportation,opinion,other
+464,1,PULIZ,Categorica,"",Giudizio su: pulizia delle vetture,alfa.,transportation,opinion,other
+465,1,COMOF,Categorica,"",Giudizio su: comodit� dell'attesa alle fermate,alfa.,transportation,opinion,other
+466,1,COLLEG,Categorica,"",Giudizio su: possibilit� di collegamento tra zone del comune,alfa.,transportation,opinion,other
+467,1,COMOR,Categorica,"",Giudizio su: comodit� di orari,alfa.,transportation,opinion,other
+468,1,CPSBI,Categorica,"",Giudizio su: costo del biglietto,alfa.,transportation,finance,opinion
+469,2,VOTOBU,-,"","Giudizio complessivo sul servizio di autobus, filobus, tram",alfa.,transportation,opinion,
+470,1,USOPUL,Categorica,"","Utilizza pullman, corriere che collegano comuni diversi?",alfa.,transportation,,
+471,1,FRCMT,Categorica,"",Giudizio su: frequenza delle corse,alfa.,transportation,opinion,other
+472,1,PUNMT,Categorica,"",Giudizio su: puntualit�,alfa.,transportation,opinion,other
+473,1,SEDMT,Categorica,"",Giudizio su: possibilit� di trovare posto a sedere,alfa.,transportation,opinion,other
+474,1,VELMT,Categorica,"",Giudizio su: velocit� della corsa,alfa.,transportation,opinion,other
+475,1,PULMT,Categorica,"",Giudizio su: pulizia delle vetture,alfa.,transportation,opinion,other
+476,1,ATTMT,Categorica,"",Giudizio su: comodit� dell'attesa alle fermate,alfa.,transportation,opinion,other
+477,1,COLCO,Categorica,"",Giudizio su: possibilit� di collegamento con altri comuni,alfa.,transportation,opinion,other
+478,1,ORAMT,Categorica,"",Giudizio su: comodit� di orari,alfa.,transportation,opinion,other
+479,1,CBMT,Categorica,"",Giudizio su: costo del biglietto,alfa.,transportation,finance,other
+480,1,INFMT,Categorica,"",Giudizio su: informazioni sugli orari e sui servizi,alfa.,transportation,opinion,other
+481,2,VOTOPU,-,"","Giudizio complessivo del servizio di pullman, corriere tra comuni diversi",alfa.,transportation,opinion,
+482,1,USTRE,Categorica,"",Utilizza il treno?,alfa.,transportation,,
+483,1,FRTRE,Categorica,"",Giudizio su: frequenza delle corse,alfa.,transportation,opinion,other
+484,1,PUTRE,Categorica,"",Giudizio su:  puntualit� dei treni,alfa.,transportation,opinion,other
+485,1,PSTRE,Categorica,"",Giudizio su: possibilit� di trovare posto a sedere,alfa.,transportation,opinion,other
+486,1,VETRE,Categorica,"",Giudizio su: velocit� della corsa,alfa.,transportation,opinion,other
+487,1,PULSTR,Categorica,"",Giudizio su: pulizia delle vetture,alfa.,transportation,opinion,other
+488,1,COMAT,Categorica,"",Giudizio su: comodit� dell'attesa alle fermate,alfa.,transportation,opinion,other
+489,1,COLCOM,Categorica,"",Giudizio su:  possibilit� di collegamento con altri comuni dei treni,alfa.,transportation,opinion,other
+490,1,COMORA,Categorica,"",Giudizio su: comodit� di orari,alfa.,transportation,opinion,other
+491,1,COBIG,Categorica,"",Giudizio su: costo del biglietto,alfa.,transportation,finance,other
+492,1,INFTR,Categorica,"","Giudizio su: informazioni sul servizio (orari, destinazioni, punti di ristoro)",alfa.,transportation,opinion,other
+493,2,VOTOTR,-,"",Giudizio complessivo sui treni,alfa.,transportation,opinion,
+494,1,BIKESH,Categorica,"",negli ultimi 12 mesi ha fatto ricorso a servizi di bike sharing,alfa.,transportation,other,
+495,2,CARSH,Categorica,"",negli ultimi 12 mesi ha fatto ricorso a servizi di car sharing,alfa.,transportation,other,
+496,1,USOCICL,Categorica,"",Utilizza un ciclomotore o un motociclo come conducente,alfa.,transportation,other,
+497,1,USOAUT,Categorica,"",Utilizza l'automobile come conducente,alfa.,transportation,,
+498,2,SERRA,Categorica,"","Problemi ambientali che la preoccupano maggiormente: effetto serra, buco nell'ozono",alfa.,opinion,social_commitment,
+499,2,ESTINZ,Categorica,"",Problemi ambientali che la preoccupano maggiormente: estinzione di alcune specie animali/vegetali,alfa.,opinion,social_commitment,
+500,2,CAMCLI,Categorica,"",Problemi ambientali che la preoccupano maggiormente: cambiamenti climatici,alfa.,opinion,social_commitment,
+501,2,SMARIF,Categorica,"",Problemi ambientali che la preoccupano maggiormente: produzione e smaltimento rifiuti,alfa.,opinion,social_commitment,
+502,2,AMRUM,Categorica,"",Problemi ambientali che la preoccupano maggiormente: rumore,alfa.,opinion,social_commitment,
+503,2,IARIA,Categorica,"",Problemi ambientali che la preoccupano maggiormente: inquinamento dell'aria,alfa.,opinion,social_commitment,
+504,2,INQSU,Categorica,"",Problemi ambientali che la preoccupano maggiormente: inquinamento del suolo,alfa.,opinion,social_commitment,
+505,2,INQFIU,Categorica,"","Problemi ambientali che la preoccupano maggiormente: inquinamento di fiumi, mari",alfa.,opinion,social_commitment,
+506,2,DISDR,Categorica,"","Problemi ambientali che la preoccupano maggiormente: dissesto idrogeologico (terremoti, alluvioni, ecc.)",alfa.,opinion,social_commitment,
+507,2,CATASTR,Categorica,"",Problemi ambientali che la preoccupano maggiormente: catastrofi provocate dall'uomo,alfa.,opinion,social_commitment,
+508,2,FORES2,Categorica,"",Problemi ambientali che la preoccupano maggiormente: distruzione delle foreste,alfa.,opinion,social_commitment,
+509,2,INQELET2,Categorica,"",Problemi ambientali che la preoccupano maggiormente: inquinamento elettromagnetico,alfa.,opinion,social_commitment,
+510,2,PAESAG2,Categorica,"",Problemi ambientali che la preoccupano maggiormente: rovina del paesaggio (eccessiva costruzione di edifici),alfa.,opinion,social_commitment,
+511,2,ESRISO2,Categorica,"","Problemi ambientali che la preoccupano maggiormente: esaurimento risorse naturali (acqua, minerali, petrolio, ecc.)",alfa.,opinion,social_commitment,
+512,2,ALTAMB2,Categorica,"",Problemi ambientali che la preoccupano maggiormente: altri problemi,alfa.,opinion,social_commitment,
+513,1,ETICHET,Categorica,"",leggere ingredienti su etichette prodotti alimentari,alfa.,opinion,food_drink,goods
+514,1,BIOLOG,Categorica,"",acquistare alimenti e prodotti biologici,alfa.,opinion,food_drink,purchase_habits
+515,1,ALOCAL,Categorica,"",acquistare alimenti e prodotti locali,alfa.,opinion,food_drink,purchase_habits
+516,1,GCARTE,Categorica,"",gettare carte per la strada,alfa.,opinion,social_commitment,
+517,1,SPRACQUA,Categorica,"",fare attenzione a non sprecare l'acqua,alfa.,opinion,social_commitment,
+518,1,SPRENER,Categorica,"",fare attenzione a non sprecare energia elettrica,alfa.,energy,opinion,social_commitment
+519,1,DOPFIL,Categorica,"",parcheggiare l'automobile in doppia fila,alfa.,opinion,transportation,social_commitment
+520,1,ARUMOR,Categorica,"",fare attenzione a non adottare comportamenti di guida rumorosi,alfa.,opinion,transportation,social_commitment
+521,1,TRASPO,Categorica,"",scegliere mezzi di trasporto alternativi all'auto e/o altri veicoli a motore privati,alfa.,opinion,transportation,social_commitment
+522,1,USAGETT,Categorica,"",utilizzare prodotti usa e getta,alfa.,opinion,goods,social_commitment
+523,1,SICURO,Categorica,"",Quanto si sente sicuro camminando per la strada quando � buio ed � solo/a nella zona in cui abita?,alfa.,trust,opinion,other
+524,2,VOTOVI,-,"0=per niente soddisfatto, 10=molto soddisfatto",Attualmente quanto si ritiene soddisfatto della sua vita nel complesso? Dia un punteggio da 0 a 10,alfa.,trust,opinion,other
+525,1,FUTUASP,Categorica,"","Nei prossimi 5 anni lei pensa che la sua situazione personale: migliorer�, rester� la stessa o peggiorer�",alfa.,trust,opinion,other
+526,1,FIDUCIA,Categorica,"",Lei pensa che ci si possa fidare della maggior parte della gente oppure bisogna stare molto attenti?,alfa.,trust,opinion,other
+527,1,FIDU1,Categorica,"",Immagini di aver perso il suo portafoglio con che probabilit� pensa le venga restituito da: un vicino di casa,alfa.,trust,opinion,other
+528,1,FIDU2,Categorica,"",Immagini di aver perso il suo portafoglio con che probabilit� pensa le venga restituito da:  un appartenente alle forze dell'ordine,alfa.,trust,opinion,other
+529,1,FIDU3,Categorica,"",Immagini di aver perso il suo portafoglio con che probabilit� pensa le venga restituito da: un completo sconosciuto,alfa.,trust,opinion,other
+530,2,PUNTIFI1,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: Parlamento italiano,alfa.,trust,opinion,other
+531,2,PUNTIFI5,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: Parlamento europeo,alfa.,trust,opinion,other
+532,2,PUNTIFI8,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: Governo regionale,alfa.,trust,opinion,other
+533,2,PUNTIFI10,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: Governo comunale,alfa.,trust,opinion,other
+534,2,PUNTIFI4,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: partiti politici,alfa.,trust,opinion,other
+535,2,PUNTIFI2,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: sistema giudiziario,alfa.,trust,opinion,other
+536,2,PUNTIFI3,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: forze dell'ordine,alfa.,trust,opinion,other
+537,2,PUNTIFI12,-,"0=non si fida per niente, 10=si fida completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: vigili del fuoco,alfa.,trust,opinion,other
+538,2,PUNTIFI13,-,"0=non si fida per niente, 10=si fida   
+completamente",Utilizzando un punteggio da 0 a 10 indichi quanto si fida delle seguenti istituzioni: banche,alfa.,trust,opinion,other
+539,2,FIDMED,-,"",Utilizzando un punteggio da 0 a 10 potrebbe indicare quanto personalmente si fida di: medici del SSN,alfa.,trust,opinion,other
+540,2,FIDINF,-,"",Utilizzando un punteggio da 0 a 10 potrebbe indicare quanto personalmente si fida di: altro personale del SSN,alfa.,trust,opinion,other
+541,2,FIDSCIE,-,"",Utilizzando un punteggio da 0 a 10 potrebbe indicare quanto personalmente si fida di: scienziati,alfa.,trust,opinion,other
+542,1,IMPITA1,Categorica,"",Ognuno possa dire liberamente ci� che pensa,alfa.,opinion,social_commitment,other
+543,1,IMPITA2,Categorica,"","Uomini e donne abbiano uguali diritti e possano accedere a tutti i lavori con lo stesso stipendio, se svolgono le stesse mansioni",alfa.,opinion,employment,social_commitment
+544,1,IMPITA3,Categorica,"","Tutte le persone abbiano gli stessi diritti a prescindere dal paese di provenienza, dal colore della pelle e dall�etnia",alfa.,opinion,social_commitment,other
+545,1,IMPITA4,Categorica,"",Giornali e mass media possano esprimere diversi punti di vista senza essere censurati,alfa.,opinion,social_commitment,other
+546,1,IMPITA5,Categorica,"",Ognuno possa professare liberamente la propria religione,alfa.,opinion,social_commitment,other
+547,1,IMPITA6,Categorica,"",Si tengano periodicamente libere elezioni,alfa.,opinion,social_commitment,other
+548,1,IMPITA7,Categorica,"",Tutte le persone abbiano gli stessi diritti a prescindere dall'orientamento sessuale,alfa.,opinion,social_commitment,other
+549,1,IMPITA8,Categorica,"","Le organizzazioni a difesa dei diritti civili, sociali e umani operino liberamente",alfa.,opinion,social_commitment,other
+550,1,IMPITA9,Categorica,"",Il sistema giudiziario sia equo,alfa.,opinion,social_commitment,other
+551,1,IMPITA10,Categorica,"",I partiti di opposizione possano operare liberamente,alfa.,opinion,social_commitment,other
+552,1,NEUROB,Categorica,"",disturbi nervosi che per le persone di 65 anni e pi� comprendono anche alzheimer e parkinson,alfa.,health_conditions,,
+553,1,BMI,Categorica,"",indice di massa corporea per persone di 18 anni e piu',alfa.,health_conditions,,
+554,3,MH,-,"L�indice di salute mentale MH � una misura 
+di disagio psicologico (psy- chological 
+distress) ottenuta dalla sintesi dei 
+punteggi totalizzati da ciascun individuo di 
+14 anni e pi� a 5 quesiti estratti dal 
+questionario SF36 (36-Item Short Form 
+Survey). I quesiti fanno riferimento alle 
+quat- tro dimensioni principali della salute 
+mentale (ansia, depressione, perdita di 
+controllo comportamentale o emozionale e 
+benessere psicologico). L�indice varia tra 0 
+e 100, con migliori condizioni di benessere 
+psi- cologico al crescere del valore 
+dell�indice.",Variabile sintetica sullo stato di salute mentale che deriva dalle var sf9 sf11 sf13 sf14 sf15,alfa.,health_conditions,,
+555,1,BMIMIN,Categorica,"calcolato utilizzando 'The Extended     
+international (IOTF) body mass index cut-offs     
+for thinness, overweight and obesity'- 2012",indice di massa corporea per persone di 3-17 anni,alfa.,health_conditions,,
+556,1,SENELE,Categorica,"","Complessivamente, quanto � soddisfatto del servizio dell'energia elettrica?",alfa.,energy,opinion,
+557,1,GCONT,Categorica,"",Giudizio su: continuit� del servizio (assenza di guasti e interruzioni della fornitura),alfa.,energy,opinion,
+558,1,GASBAL,Categorica,"",Giudizio su: assenza di sbalzi di tensione,alfa.,energy,opinion,
+559,1,GDISPL,Categorica,"",Giudizio su: comprensibilit� del display,alfa.,energy,opinion,
+560,1,GCBOL,Categorica,"",Giudizio su: comprensibilit� delle bollette,alfa.,energy,opinion,
+561,1,GINF,Categorica,"","Giudizio su: informazione sul servizio (informazioni su tariffe, condizioni di erogazione, allacciamenti ecc.)",alfa.,energy,opinion,
+562,1,GAS5,Categorica,"",Come arriva il gas all'abitazione?,alfa.,energy,house,
+563,1,SGAS,Categorica,"",Complessivamente quanto � soddisfatto del servizio gas?,alfa.,energy,opinion,
+564,1,GASPR2,Categorica,"",Giudizio sul servizio del gas: adeguatezza pressione di fornitura,alfa.,energy,opinion,
+565,1,FLGAS,Categorica,"",Giudizio sul servizio del gas: frequenza di lettura dei contatori,alfa.,energy,opinion,
+566,1,COMBOL,Categorica,"",Giudizio sul servizio del gas: comprensibilit� delle bollette,alfa.,energy,opinion,
+567,1,SERINF,Categorica,"","Giudizio sul servizio del gas: informazione sul servizio (informazioni su tariffe, condizioni di erogazioni, allacciamenti, ecc.)",alfa.,energy,opinion,
+568,1,SICURET,Categorica,"",Giudizio sul servizio del gas: sicurezza della rete di distribuzione,alfa.,energy,opinion,
+569,1,SCEFO2,Categorica,"",Sa che pu� scegliere un fornitore diverso dall'azienda che le eroga attualmente l'energia elettrica e/o il gas?,alfa.,energy,,
+570,1,CAMFO2,Categorica,"",Ha mai cambiato fornitore di energia elettrica o gas negli ultimi 12 mesi?,alfa.,energy,,
+571,1,SPORCO,Categorica,"",La zona in cui abita presenta: sporcizia nelle strade,alfa.,other,opinion,
+572,1,PARCH,Categorica,"",La zona in cui abita presenta: difficolt� di parcheggio,alfa.,other,opinion,
+573,1,COLMP,Categorica,"",La zona in cui abita presenta: difficolt� di collegamento coi mezzi pubblici,alfa.,other,opinion,
+574,1,TRAF,Categorica,"",La zona in cui abita presenta: traffico,alfa.,other,opinion,
+575,1,INQAR,Categorica,"",La zona in cui abita presenta: inquinamento dell'aria,alfa.,other,opinion,
+576,1,RUMORE,Categorica,"",La zona in cui abita presenta: rumore,alfa.,other,opinion,
+577,1,CRIM,Categorica,"",La zona in cui abita presenta: rischio di criminalit�,alfa.,other,opinion,
+578,1,ODSGR,Categorica,"",La zona in cui abita presenta: odori sgradevoli,alfa.,other,opinion,
+579,1,ILLSTR,Categorica,"",La zona in cui abita presenta: scarsa illuminazione delle strade,alfa.,other,opinion,
+580,1,CONPAV,Categorica,"",La zona in cui abita presenta: cattive condizioni della pavimentazione stradale,alfa.,other,opinion,
+581,1,PARCHI,Categorica,"","Nella zona in cui abita la famiglia ci sono parchi, giardini o altro verde pubblico raggiungibile a piedi in meno di 15 minuti?",alfa.,other,,
+582,1,CICL,Categorica,"",Nella zona in cui abita ci sono piste ciclabili raggiungibili in bicicletta in meno di 5 minuti?,alfa.,transportation,,
+583,1,AFFACCIO,Categorica,"",La sua abitazione affaccia su una strada in cui il passaggio di veicoli in una normale giornata feriale �:,alfa.,house,,
+584,2,STANZEM,Categorica,ricostruita,Di quante stanze si compone l'abitazione?,alfa.,house,,
+585,1,TERRAZ,Categorica,"",L'abitazione dispone di terrazzo o balcone?,alfa.,house,,
+586,1,GARDEN,Categorica,"",L'abitazione dispone di giardino privato?,alfa.,house,,
+587,1,COMPOST,Categorica,"",Sa che � possibile per le abitazioni con il giardino effettuare il compostaggio domestico?,alfa.,house,,
+588,1,HACOMP,Categorica,"",La famiglia dispone di compostiera?,alfa.,house,,
+589,1,AGECOMP,Categorica,"",Ha delle agevolazioni dovute al fatto di effettuare il compostaggio domestico?,alfa.,house,,
+590,1,TELEF,Categorica,"",L'abitazione dispone di telefono,alfa.,house,,
+591,1,NELENC,Categorica,"",Il numero telefonico dell'abitazione principale � riportato nell'elenco telefonico del comune in cui vive?,alfa.,house,,
+592,1,RISCAL,Categorica,"",L'abitazione dispone di riscaldamento?,alfa.,house,,
+593,1,TRISC,Categorica,"",Tipo di riscaldamento prevalente:,alfa.,house,energy,
+594,1,REACQ1,Categorica,"",L'acqua arriva all'abitazione attraverso rete comunale,alfa.,house,other,
+595,1,REACQ2,Categorica,"","L'acqua arriva all'abitazione attraverso pozzi, sorgenti o altre fonti private",alfa.,house,other,
+596,1,REACQ3,Categorica,"",L'acqua arriva all'abitazione attraverso sistemi raccolta acqua piovana,alfa.,house,other,
+597,1,REACQ4,Categorica,"",L'acqua arriva all'abitazione attraverso autobotti,alfa.,house,other,
+598,1,REACQ5,Categorica,"",L'acqua arriva all'abitazione in altro modo,alfa.,house,other,
+599,1,SODACQUA,Categorica,"",Complessivamente quanto � soddisfatto del servizio idrico?,alfa.,house,other,
+600,1,AGFORN,Categorica,"",Giudizio sul servizio idrico: assenza di interruzioni della fornitura,alfa.,house,opinion,other
+601,1,AGPRESS,Categorica,"",Giudizio sul servizio idrico: livello di pressione dell'acqua,alfa.,house,opinion,other
+602,1,AGODOR,Categorica,"","Giudizio sul servizio idrico: odore, sapore e limpidezza dell'acqua",alfa.,house,opinion,other
+603,1,AGLETTUR,Categorica,"",Giudizio sul servizio idrico: frequenza di lettura dei contatori,alfa.,house,opinion,other
+604,1,AGFATTUR,Categorica,"",Giudizio sul servizio idrico: frequenza della fatturazione,alfa.,house,opinion,other
+605,1,AGBOLLET,Categorica,"",Giudizio sul servizio idrico: comprensibilit� delle bollette,alfa.,house,opinion,other
+606,1,FOGNA,Categorica,"",L'abitazione � allacciata alla rete fognaria?,alfa.,house,,
+607,1,SPEAB,Categorica,"",Si verificano uno o pi� dei seguenti problemi: le spese per l'abitazione sono troppo alte,alfa.,house,finance,
+608,1,ABIPIC,Categorica,"",Si verificano uno o pi� dei seguenti problemi:  l'abitazione � troppo piccola,alfa.,house,,
+609,1,ABLONF,Categorica,"",Si verificano uno o pi� dei seguenti problemi:  l'abitazione � troppo distante da altri familiari,alfa.,house,social_relations,
+610,1,ACQUA,Categorica,"",Si verificano uno o pi� dei seguenti problemi: irregolarit� nella erogazione dell'acqua,alfa.,house,other,
+611,1,ABICC,Categorica,"",Si verificano uno o pi� dei seguenti problemi: l'abitazione � in cattive condizioni,alfa.,house,,
+612,1,ERACQ,Categorica,"",Frequenza con cui negli ultimi 12 mesi si � verificata l'irregolarit� nella erogazione dell'acqua,alfa.,house,other,
+613,1,SIACQ,Categorica,"",La famiglia o qualche componente beve abitualmente acqua del rubinetto in casa,alfa.,house,other,health_behaviour
+614,1,ACQBRU,Categorica,"","Nessun componente della famiglia beve acqua di rubinetto perch� non � bevibile o non ci fidiamo a berla (inquinata, brutto colore, cattivo sapore, ecc.)",alfa.,house,opinion,health_behaviour
+615,1,NOACQ,Categorica,"",Nessun componente della famiglia beve acqua di rubinetto per altro motivo,alfa.,house,other,
+616,1,GODAB,Categorica,"",A che titolo la famiglia occupa l'abitazione?,alfa.,house,demographics,
+617,1,FARMA,Categorica,"",Difficolt� a raggiungere: farmacie,alfa.,house,transportation,health_behaviour
+618,1,PRSOC,Categorica,"",Difficolt� a raggiungere: pronto soccorso,alfa.,house,transportation,healthcare
+619,1,UFFPO,Categorica,"",Difficolt� a raggiungere: ufficio postale,alfa.,house,transportation,
+620,1,POLICE,Categorica,"","Difficolt� a raggiungere: polizia, carabinieri",alfa.,house,transportation,
+621,1,UFFCOM,Categorica,"",Difficolt� a raggiungere: uffici comunali,alfa.,house,transportation,
+622,1,MERCAT,Categorica,"","Difficolt� a raggiungere: negozi di generi alimentari, mercati",alfa.,house,transportation,goods
+623,1,SMERC,Categorica,"",Difficolt� a raggiungere: supermercati,alfa.,house,transportation,goods
+624,1,CRARIF,Categorica,"",Giudizio sul costo sostenuto per: raccolta rifiuti urbani,alfa.,opinion,finance,house
+625,1,CERACQ,Categorica,"",Giudizio sul costo sostenuto per: erogazione dell'acqua,alfa.,opinion,finance,house
+626,1,POAPO,Categorica,"",La zona in cui vive � servita/coinvolta dalla raccolta porta a porta dei rifiuti?,alfa.,house,other,
+627,2,R_CARTA,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: carta e cartone,alfa.,house,other,social_commitment
+628,2,R_VETRO,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: vetro,alfa.,house,other,social_commitment
+629,2,R_FARM,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: farmaci,alfa.,house,other,social_commitment
+630,2,R_BAT,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: batterie usate,alfa.,house,other,social_commitment
+631,2,R_LATAL,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: contenitori di alluminio e altri metalli,alfa.,house,other,social_commitment
+632,2,R_PLAS,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: contenitori in plastica,alfa.,house,other,social_commitment
+633,2,R_RORG,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: rifiuti organici/umido,alfa.,house,other,social_commitment
+634,2,R_TESSILI,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: rifiuti tessili,alfa.,house,other,social_commitment
+635,2,R_ALT,Categorica,"",Abitudine a raccogliere i rifiuti in modo separato tramite gli appositi contenitori: altro,alfa.,house,other,social_commitment
+636,1,SODPOAPO,Categorica,"",Complessivamente la sua famiglia quanto � soddisfatta del servizio di raccolta dei rifiuti porta a porta nella zona in cui vive?,alfa.,house,opinion,other
+637,1,NOSPO1,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: problemi legati agli orari di ritiro,alfa.,house,opinion,other
+638,1,NOSPO7,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: problemi legati alla frequenza di ritiro,alfa.,house,opinion,other
+639,1,NOSPO2,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: problemi legati ai sacchetti/contenitori da utilizzare nella raccolta,alfa.,house,opinion,other
+640,1,NOSPO3,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: odori causati dall'umido non raccolto quotidianamente,alfa.,house,opinion,other
+641,1,NOSPO4,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: non ritiene utile raccogliere rifiuti in modo differenziato,alfa.,house,opinion,other
+642,1,NOSPO5,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: non crede che i rifiuti raccolti vengano recuperati/riciclati,alfa.,house,opinion,other
+643,1,NOSPO8,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: non sono adeguate le informazioni e l'assistenza agli utenti,alfa.,house,opinion,other
+644,1,NOSPO6,Categorica,"",Famiglia non soddisfatta per il servizio di raccolta dei rifiuti porta a porta per: altro motivo,alfa.,house,opinion,other
+645,1,ECOSTAZ,Categorica,"","Nella zona in cui vive la sua famiglia ci sono stazioni ecologiche, cio� centri dove � possibile portare gratuitamente i rifiuti che non possono essere gettati nei cassonetti?",alfa.,other,house,
+646,1,USOECO2,Categorica,"",La sua famiglia ha mai portato rifiuti in questi centri di raccolta?,alfa.,other,,
+647,2,ECOCAR,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: carta/cartone di dimensioni ingombranti,alfa.,other,,
+648,2,ECOVET,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: vetro,alfa.,other,,
+649,2,ECOPLA,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: plastica di dimensioni ingombranti,alfa.,other,,
+650,2,ECOPNE,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: pneumatici,alfa.,other,,
+651,2,ECOMET,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: metalli,alfa.,other,,
+652,2,ECOLEG,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: legno,alfa.,other,,
+653,2,ECOFAR,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: farmaci scaduti,alfa.,other,,
+654,2,ECOBAT,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: batterie usate,alfa.,other,,
+655,2,ECOING,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: rifiuti ingombranti,alfa.,other,,
+656,2,ECOINE,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: inerti,alfa.,other,,
+657,2,ECOELE,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: apparecchiature elettriche ed elettroniche,alfa.,other,,
+658,2,ECOOLI,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: olio esausto,alfa.,other,,
+659,2,ECOINF,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: rifiuti tossici e/o infiammabili,alfa.,other,,
+660,2,ECOPOT,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: verde e potature,alfa.,other,,
+661,2,ECOTESS,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: rifiuti tessili,alfa.,other,,
+662,2,ECOALT,Categorica,"",Tipo di rifiuti portato nelle stazioni ecologiche: altro,alfa.,other,,
+663,1,NOECO,Categorica,"",Motivo per cui la famiglia non ha mai portato rifiuti nelle stazioni ecologiche,alfa.,other,,
+664,1,SPIDIF1,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: maggiori informazioni su come separare i rifiuti,alfa.,other,,
+665,1,SPIDIF2,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: maggiori informazioni su dove separare i rifiuti,alfa.,other,,
+666,1,SPIDIF3,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: raccolta a domicilio (porta a porta),alfa.,other,,
+667,1,SPIDIF4,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: disponibilit� di appositi contenitori nelle vicinanze dell'abitazione,alfa.,other,house,
+668,1,SPIDIF5,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: centri di raccolta migliori e pi� numerosi,alfa.,other,,
+669,1,SPIDIF6,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: maggiori garanzie che i rifiuti raccolti vengano effettivamente separati,alfa.,other,,
+670,1,SPIDIF7,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: obbligo legale/multe per chi non effettua la raccolta differenziata,alfa.,other,,
+671,1,SPIDIF8,Categorica,"",Cosa potrebbe spingere la famiglia ad effettuare o fare pi� spesso la raccolta differenziata: detrazioni agevolazioni fiscali o tariffarie per chi effettua regolarmente la raccolta differenziata,alfa.,other,,
+672,1,CAMAB,Categorica,"",Negli ultimi 12 mesi uno o pi� dei componenti della famiglia attuale ha cambiato abitazione?,alfa.,house,other,
+673,1,PCAMAB,Categorica,"",Negli ultimi 12 mesi la famiglia o qualche componente ha preso seriamente in considerazione la possibilit� di cambiare abitazione?,alfa.,house,other,
+674,1,ASSCA,Categorica,"",La famiglia � assicurata contro i furti nell'abitazione?,alfa.,house,,
+675,2,COLFAGG,Categorica,ricostruita,La famiglia si avvale di: collaboratore/collaboratrice domestico/a,alfa.,house,other,
+676,2,BABYSAGG,Categorica,ricostruita,La famiglia si avvale di: baby-sitter,alfa.,other,,
+677,2,ASSANZAGG,Categorica,ricostruita,La famiglia si avvale di: persona che assiste un anziano o un disabile,alfa.,other,health_behaviour,
+678,2,HCOLF,-,00=saltuariamente,Ore a settimana collaboratore/collaboratrice domestico/a,alfa.,house,other,
+679,2,HBABYS,-,00=saltuariamente,Ore a settimana baby-sitter,alfa.,other,,
+680,2,HASANZ,-,00=saltuariamente,Ore a settimana persona che assiste un anziano o un disabile,alfa.,other,health_behaviour,
+681,1,AVVOC,Categorica,"",Negli ultimi 12 mesi la famiglia � ricorsa alla consulenza di: avvocato,alfa.,other,,
+682,1,NOTAIO,Categorica,"",Negli ultimi 12 mesi la famiglia � ricorsa alla consulenza di: notaio,alfa.,other,,
+683,1,COMMER,Categorica,"",Negli ultimi 12 mesi la famiglia � ricorsa alla consulenza di: commercialista,alfa.,other,,
+684,1,NOMOD,Categorica,"",Organizzazione della famiglia per la compilazione dei modelli per il pagamento delle tasse: la famiglia non deve compilare nessun modulo,alfa.,other,finance,
+685,1,COMFAM,Categorica,"",Organizzazione della famiglia per la compilazione dei modelli per il pagamento delle tasse: se ne occupano uno o pi� componenti della famiglia,alfa.,other,finance,
+686,1,NONPAG,Categorica,"",Organizzazione della famiglia per la compilazione dei modelli per il pagamento delle tasse: se ne occupano organizzazioni o persone non a pagamento,alfa.,other,finance,
+687,1,PAGAM,Categorica,"","Organizzazione della famiglia per la compilazione dei modelli per il pagamento delle tasse: se ne occupa un commercialista, una organizzazione o altra persona a pagamento",alfa.,other,finance,
+688,1,LAVST,Categorica,"",Possesso di: lavastoviglie,alfa.,goods,house,other
+689,1,NLAVSTM,Categorica,ricostruita,numero lavastoviglie,alfa.,goods,house,other
+690,1,LAVATR,Categorica,"",Possesso di: lavatrice,alfa.,goods,house,other
+691,1,NLAVAT,-,"",numero lavatrici,alfa.,goods,house,other
+692,1,VIDER,Categorica,"",Possesso di: videoregistratore,alfa.,goods,entertainment,
+693,1,NVIDERM,Categorica,ricostruita,numero videoregistratore,alfa.,goods,entertainment,
+694,1,VIDEO,Categorica,"",Possesso di: videocamera,alfa.,goods,entertainment,
+695,1,NVIDEO,-,"",numero videocamere,alfa.,goods,entertainment,
+696,1,DVD,Categorica,"",Possesso di: Lettore DVD/Blu Ray,alfa.,goods,entertainment,
+697,1,NDVDM,Categorica,ricostruita,numero lettori DVD/Blu Ray,alfa.,goods,entertainment,
+698,1,HIFI,Categorica,"",Possesso di: impianto stereo hi-fi per ascoltare musica,alfa.,goods,entertainment,
+699,1,NHIFIM,Categorica,ricostruita,numero impianto stereo hi-fi per ascoltare musica,alfa.,goods,entertainment,
+700,1,TELCOL,Categorica,"",Possesso di: televisore,alfa.,goods,entertainment,
+701,1,NTELCO,-,"",numero televisori,alfa.,goods,entertainment,
+702,1,ANTEPA,Categorica,"",Possesso di: antenna parabolica,alfa.,goods,entertainment,
+703,1,NANTEPA,-,"",numero antenna parabolica,alfa.,goods,entertainment,
+704,1,CLIMAT,Categorica,"","Possesso di: condizionatori, climatizzatori",alfa.,goods,energy,
+705,1,NCLIMAT,-,"","numero condizionatori, climatizzatori",alfa.,goods,energy,
+706,1,BIC,Categorica,"",Possesso di: bicicletta,alfa.,goods,transportation,
+707,1,NBIC,-,"",numero di biciclette,alfa.,goods,transportation,
+708,1,MOTOR,Categorica,"","Possesso di: motorino, scooter",alfa.,goods,transportation,
+709,1,NMOTOR,-,"","numero motorini, scooter",alfa.,goods,transportation,
+710,1,AMOTO,Categorica,"","Possesso di: motocicletta, moto",alfa.,goods,transportation,
+711,1,NMOTOM,Categorica,ricostruita,"numero di motociclette, moto",alfa.,goods,transportation,
+712,1,AUTO,Categorica,"",La famiglia possiede l'automobile?,alfa.,goods,transportation,
+713,1,NAUTOM,Categorica,ricostruita,numero automobili,alfa.,goods,transportation,
+714,1,BOX,Categorica,"","La famiglia dispone di un posto macchina o di un garage di propriet�, non attaccato all'abitazione in cui vive, dove tiene abitualmente una o pi� auto della famiglia?",alfa.,house,transportation,
+715,1,NBOX,-,"",Numero di posto macchina o garage posseduti,alfa.,house,transportation,
+716,1,LIBFAM,Categorica,"",Quanti libri possiede la famiglia?,alfa.,goods,culture,
+717,1,TELCEL,Categorica,"",La famiglia possiede il telefono cellulare?,alfa.,goods,digital,
+718,1,NTELCELM,Categorica,ricostruita,Numero di telefoni cellulari posseduti,alfa.,goods,digital,
+719,1,TELCIN,Categorica,"",Il telefono o i telefoni cellulari di cui dispone la famiglia hanno la possibilit� di collegarsi ad Internet?,alfa.,goods,digital,
+720,1,PC,Categorica,"",La famiglia dispone di personal computer a casa?,alfa.,goods,digital,house
+721,1,VGIOC,Categorica,"",La famiglia possiede: consolle per videogiochi,alfa.,goods,digital,entertainment
+722,1,NVIGIOC,-,"","Numero consolle, videogiochi, altre apparecchiature computerizzate (escluso personal computer)",alfa.,goods,digital,entertainment
+723,1,EBOOK,Categorica,"",La famiglia possiede: lettore di e-book,alfa.,goods,digital,culture
+724,1,NEBOOKM,Categorica,ricostruita,Numero di lettori di e-book,alfa.,goods,digital,culture
+725,1,FOTODIG,Categorica,"",La famiglia possiede: macchina fotografica digitale,alfa.,goods,digital,
+726,1,NFOTODIG,-,"",Numero di macchine fotografiche digitali,alfa.,goods,digital,
+727,1,AINTERN,Categorica,"",La famiglia dispone di un accesso ad Internet da casa?,alfa.,digital,house,
+728,1,CIDSLWIFI,Categorica,"","Connessione usata dalla famiglia: fissa a banda larga (es.DSL, ADSL, VDSL, cavo, fibra ottica, satellite, rete pubblica WIFI, ecc. )",alfa.,digital,house,
+729,1,CISFPAL,Categorica,"",Connessione usata dalla famiglia: rete di telefonia mobile a banda larga con cellulare o smartphone (minimo con tecnologia 3G),alfa.,digital,,
+730,1,CISFMOD,Categorica,"",Connessione usata dalla famiglia: rete di telefonia mobile a banda larga tramite SIM card o chiavetta USB  (minimo con tecnologia 3G),alfa.,digital,,
+731,1,CIBASTR,Categorica,"","Connessione fissa o mobile a banda stretta (es.ISDN, 2G, GPRS, ecc.)",alfa.,digital,house,
+732,1,MOTNOAI1,Categorica,"",Motivo per cui la famiglia non dispone di accesso ad Internet da casa: accede ad Internet da altro luogo,alfa.,digital,house,
+733,1,MOTNOAI3,Categorica,"","Motivo per cui la famiglia non dispone di accesso ad Internet da casa: Internet non � utile, non � interessante",alfa.,digital,house,
+734,1,MOTNOAI4,Categorica,"",Motivo per cui la famiglia non dispone di accesso ad Internet da casa: alto costo degli strumenti per connettersi,alfa.,digital,house,finance
+735,1,MOTNOAI5,Categorica,"",Motivo per cui la famiglia non dispone di accesso ad Internet da casa: alto costo del collegamento,alfa.,digital,house,finance
+736,1,MOTNOAI6,Categorica,"",Motivo per cui la famiglia non dispone di accesso ad Internet da casa: nessuno sa usare internet,alfa.,digital,house,
+737,1,MOTNOAI8,Categorica,"","Motivo per cui la famiglia non dispone di accesso ad Internet da casa: motivi di privacy, sicurezza",alfa.,digital,house,
+738,1,MOTNOAI10,Categorica,"",Motivo per cui la famiglia non dispone di accesso ad Internet da casa: mancanza di una connessione a banda larga nella zona,alfa.,digital,house,
+739,1,MOTNOAI9,Categorica,"",Motivo per cui la famiglia non dispone di accesso ad Internet da casa:  altro motivo (codice),alfa.,digital,house,
+740,1,SITE,Categorica,"",Valutazione della situazione economica della famiglia confrontata con quella di un anno fa,alfa.,finance,other,
+741,1,RISEC,Categorica,"","Con riferimento agli ultimi 12 mesi e tenendo presente le esigenze di tutti i componenti familiari, come sono state le risorse economiche complessive della famiglia?",alfa.,finance,other,

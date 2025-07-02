@@ -61,7 +61,7 @@ git pull origin main
 pip install -e ISTAT-microdata-extractor
 ```
 
-To setup your **AVQ ISTAT Microdata**, unzip the data folder you need [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
+To setup the data, unzip the data folder you need [here](https://github.com/Clearbox-AI/ISTAT-microdata-extractor/tree/main/data) and provide the path to the unzipped folder to the `load_data()` method of your `ISTATMicrodataExtractor` class.
 
 ### 📊 Examples
 ```python

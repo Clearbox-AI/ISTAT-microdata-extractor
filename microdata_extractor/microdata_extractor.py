@@ -204,22 +204,20 @@ class ISTATMicrodataExtractor:
         attribute_name = None
         if isinstance(attribute, str):
             # Convert attribute name to number
-            # try:
             attribute_name = attribute
             attribute = self.tracciato_df.filter(pl.col("Acronimovariabile") == attribute).select("num. ordine").to_numpy()[0][0]
-            # except:
-                # return None
         elif isinstance(attribute, int):
             attribute_name = self.tracciato_df.filter(pl.col("num. ordine") == attribute).select("Acronimovariabile").to_numpy()[0][0]
             
         path_to_file = os.path.join(self.path_to_main_folder, f"METADATI/Classificazioni/{self.df_name}_Classificazione_{self.year}_var{attribute}.html")
 
         if not os.path.exists(path_to_file):
-            print(f"File {path_to_file} does not exist.\n\nAttribute n° {attribute} ({attribute_name}) may be of numerical type.")
+            if print_output:
+                print("Attribute:\n  ",attribute_name)
+                print("Description:\n  ",self.tracciato_df.filter(pl.col("Acronimovariabile")==attribute_name)["Denominazione Variabile"].item())
             return None
         else:
             rows = self._read_html(path_to_file)
-            
             dict = {int(row[0]): row[1] for row in rows[1:]}
 
             if print_output:
@@ -586,10 +584,11 @@ if __name__ == "__main__":
 
     # mde = ISTATMicrodataExtractor(df_name="AVQ", year="2023", get_polars=True)
     # mde.load_data("Replica/AVQ_2023_IT")
-    mde = ISTATMicrodataExtractor(df_name="HBS", year="2023", get_polars=True)
-    mde.load_data("Replica/HBS_2023_IT")
+    mde = ISTATMicrodataExtractor(df_name="AVQ", year="2023", get_polars=True)
+    mde.load_data("Replica/AVQ_2023_IT")
 
-    mde.get_attribute_metadata("c_ateco_1")
+    mde.get_attribute_metadata("PROFAM", print_output=True)
+
     # Filter returns adults (age>=18) with BMI==[1,2,3] and minors (age<18) with BMIMIN==1
     df_filt=mde.filter([[("ETAMi",">=",7),("BMI","<=",3)],[("ETAMi","<",7),("BMIMIN","==",1)]])
 

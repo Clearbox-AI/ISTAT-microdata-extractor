@@ -40,7 +40,7 @@ jobs:
           else
             echo "Version ${PACKAGE_VERSION} does not exist on PyPI."
             echo "already_published=false" >> $GITHUB_ENV
-          fi
+          fi 
         else
           echo "Package does not exist on PyPI."
           echo "already_published=false" >> $GITHUB_ENV

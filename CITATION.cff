@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ISTAT Microdata Extractor"
+version: "0.0.1"
+authors:
+  - name: "Clearbox AI"
+repository-code: "https://github.com/Clearbox-AI/ISTAT-microdata-extractor"
+license: "Apache-2.0"
+date-released: "2025-08-08"
+keywords:
+  - ISTAT
+  - microdata
+  - AVQ
+  - data processing
+  - data extraction
+abstract: >
+  A Python library for extracting and processing ISTAT AVQ microdata,
+  enabling efficient handling, transformation, and analysis of survey datasets.
+preferred-citation:
+  type: software
+  authors:
+    - name: "Clearbox AI"
+  title: "ISTAT Microdata Extractor"
+  version: "0.0.1"
+  url: "https://github.com/Clearbox-AI/ISTAT-microdata-extractor"

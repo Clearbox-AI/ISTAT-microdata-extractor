@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "ISTAT Microdata Extractor"
+title: "ISTAT-Microdata-Extractor"
 version: "0.0.1"
 authors:
   - name: "Clearbox AI"
@@ -21,6 +21,6 @@ preferred-citation:
   type: software
   authors:
     - name: "Clearbox AI"
-  title: "ISTAT Microdata Extractor"
+  title: "ISTAT-Microdata-Extractor"
   version: "0.0.1"
   url: "https://github.com/Clearbox-AI/ISTAT-microdata-extractor"

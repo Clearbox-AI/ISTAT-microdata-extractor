@@ -4,6 +4,7 @@ title: "ISTAT Microdata Extractor"
 version: "0.0.1"
 authors:
   - name: "Clearbox AI"
+  - website: "https://www.clearbox.ai/"
 repository-code: "https://github.com/Clearbox-AI/ISTAT-microdata-extractor"
 license: "Apache-2.0"
 date-released: "2025-08-08"
